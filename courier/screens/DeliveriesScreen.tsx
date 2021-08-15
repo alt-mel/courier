@@ -4,8 +4,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  FlatList
-  
+  FlatList 
 } from 'react-native';
 import { View, Text } from '../components/Themed';
 
@@ -24,7 +23,7 @@ const GET_DELIVERIES = gql`
 `;
 
 export default function DeliveriesScreen() {
-  const [delivery, setDelivery] = useState([{
+  const [deliveries, setDeliveries] = useState([{
     title: '',
     price: '',
     pickup_location: '',
@@ -42,11 +41,11 @@ export default function DeliveriesScreen() {
 
   useEffect(() => {
     if (data) {
-      setDelivery(data.myDeliveries);
+      setDeliveries(data.myDeliveries);
     }
   }, [data]);
 
-  if (!delivery) {
+  if (!deliveries) {
     return null;
   }
 
@@ -59,7 +58,7 @@ export default function DeliveriesScreen() {
       <View style={styles.container}>
         <Text style={styles.title}>My Deliveries</Text>
         <FlatList
-        data={delivery}
+        data={deliveries}
         renderItem={({item}) => <Text>{item.title}</Text>}
       />
       </View>
