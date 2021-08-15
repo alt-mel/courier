@@ -119,11 +119,6 @@ const resolvers = {
       if (!user) {
         throw new Error('Authentication Error. Please sign in');
       }
-
-      // TODO Console logging useeer object to see if id is inside
-      console.log('User', user);
-
-      //TODO FInd deliveries belonging to a certain user
       return await db.collection('Delivery').find().toArray();
     },
 
@@ -131,7 +126,6 @@ const resolvers = {
       if (!user) {
         throw new Error('Authentication Error. Please sign in');
       }
-
       return await db.collection('Delivery').findOne({ _id: ObjectID(id) });
     },
   },
@@ -282,7 +276,6 @@ const resolvers = {
       return true;
     },
 
-    // Items
     createItem: async (
       _,
       { description, size, weight, deliveryId },
@@ -323,7 +316,6 @@ const resolvers = {
         throw new Error('Authentication Error. Please sign in');
       }
 
-      // TODO only collaborators of this task list should be able to delete
       await db.collection('Item').removeOne({ _id: ObjectID(id) });
 
       return true;

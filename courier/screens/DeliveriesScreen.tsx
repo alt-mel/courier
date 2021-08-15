@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
-  FlatList,
-  TextInput,
   KeyboardAvoidingView,
   Platform,
   Alert,
-  Text,
+  FlatList
+  
 } from 'react-native';
+import { View, Text } from '../components/Themed';
+
 import { useQuery, gql } from '@apollo/client';
-import { useRoute } from '@react-navigation/native';
-import { View } from '../components/Themed';
 
 const GET_DELIVERIES = gql`
   query myDeliveries {
@@ -25,12 +24,12 @@ const GET_DELIVERIES = gql`
 `;
 
 export default function DeliveriesScreen() {
-  const [delivery, setDelivery] = useState({
+  const [delivery, setDelivery] = useState([{
     title: '',
     price: '',
     pickup_location: '',
     destination_location: '',
-  });
+  }]);
 
   const { data, error, loading } = useQuery(GET_DELIVERIES);
 
@@ -44,8 +43,6 @@ export default function DeliveriesScreen() {
   useEffect(() => {
     if (data) {
       setDelivery(data.myDeliveries);
-
-      console.log(data);
     }
   }, [data]);
 
@@ -61,7 +58,10 @@ export default function DeliveriesScreen() {
     >
       <View style={styles.container}>
         <Text style={styles.title}>My Deliveries</Text>
-        {/* // TODO Create a List item with delivery details */}
+        <FlatList
+        data={delivery}
+        renderItem={({item}) => <Text>{item.title}</Text>}
+      />
       </View>
     </KeyboardAvoidingView>
   );

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  TextInput,
   Pressable,
   ActivityIndicator,
   Alert,
 } from 'react-native';
+import { View, Text, TextInput } from '../components/Themed';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
@@ -32,9 +31,6 @@ const SignUpScreen = () => {
 
   const navigation = useNavigation();
 
-  // mutation[0] : A function to trigger the mutation
-  // mutation[1] : result object
-  //    { data,error, loading }
   const [signUp, { data, error, loading }] = useMutation(SIGN_UP_MUTATION);
 
   if (error) {
@@ -42,9 +38,7 @@ const SignUpScreen = () => {
   }
 
   if (data) {
-    // save token
     AsyncStorage.setItem('token', data.signUp.token).then(() => {
-      // redirect home
       navigation.navigate('Home');
     });
   }
@@ -60,7 +54,6 @@ const SignUpScreen = () => {
         value={name}
         onChangeText={setName}
         style={{
-          color: 'white',
           fontSize: 18,
           width: '100%',
           marginVertical: 25,
@@ -72,7 +65,6 @@ const SignUpScreen = () => {
         value={email}
         onChangeText={setEmail}
         style={{
-          color: 'white',
           fontSize: 18,
           width: '100%',
           marginVertical: 25,
@@ -85,7 +77,6 @@ const SignUpScreen = () => {
         onChangeText={setPassword}
         secureTextEntry
         style={{
-          color: 'white',
           fontSize: 18,
           width: '100%',
           marginVertical: 25,

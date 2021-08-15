@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Pressable, Alert } from 'react-native';
+import { Pressable, Alert } from 'react-native';
+import { View, Text, TextInput } from '../components/Themed';
+
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, gql } from '@apollo/client';
@@ -45,10 +47,9 @@ const SignInScreen = () => {
     <View style={{ padding: 20 }}>
       <TextInput
         placeholder="email@email.com"
-        value={email}
+         value={email}
         onChangeText={setEmail}
         style={{
-          color: 'white',
           fontSize: 18,
           width: '100%',
           marginVertical: 25,
@@ -61,7 +62,6 @@ const SignInScreen = () => {
         onChangeText={setPassword}
         secureTextEntry
         style={{
-          color: 'white',
           fontSize: 18,
           width: '100%',
           marginVertical: 25,
