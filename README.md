@@ -19,7 +19,7 @@ $ npm install --global expo-cli
 ```
 ### Installing Project Modules
 
-Install the project dependencies by running in Terminal within the project folder:
+Install the project dependencies by running in Terminal within the api folder as well as the courier folder:
 
 ```bash
 $ npm install
@@ -37,10 +37,17 @@ JWT_SECRET=asdfghjkjhgfdsdfghjklkjhgfd
 
 ### Running the project locally
 
+Run the api locally by running in Terminal within the api folder:
 
 ```bash
 $ npm start
 ```
+Run the client locally by running in Terminal within the courier folder:
+
+```bash
+$ expo start
+```
+
 
 
 
