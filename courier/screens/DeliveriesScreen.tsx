@@ -4,11 +4,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  FlatList 
+  FlatList
 } from 'react-native';
 import { View, Text } from '../components/Themed';
 
 import { useQuery, gql } from '@apollo/client';
+
 
 const GET_DELIVERIES = gql`
   query myDeliveries {
@@ -30,6 +31,7 @@ export default function DeliveriesScreen() {
     destination_location: '',
   }]);
 
+  const [geoData, setGeoData] = useState({ words: '' })
   const { data, error, loading } = useQuery(GET_DELIVERIES);
 
   useEffect(() => {
@@ -58,9 +60,13 @@ export default function DeliveriesScreen() {
       <View style={styles.container}>
         <Text style={styles.title}>My Deliveries</Text>
         <FlatList
-        data={deliveries}
-        renderItem={({item}) => <Text>{item.title}</Text>}
-      />
+          data={deliveries}
+          renderItem={({ item }) => (<React.Fragment><Text>{item.price}</Text><Text>{item.title}</Text></React.Fragment>)}
+        />
+        {
+
+          <Text>{geoData.words}</Text>
+        }
       </View>
     </KeyboardAvoidingView>
   );

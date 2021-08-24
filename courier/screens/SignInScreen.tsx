@@ -47,7 +47,7 @@ const SignInScreen = () => {
     <View style={{ padding: 20 }}>
       <TextInput
         placeholder="email@email.com"
-         value={email}
+        value={email}
         onChangeText={setEmail}
         style={{
           fontSize: 18,
@@ -71,7 +71,7 @@ const SignInScreen = () => {
         onPress={onSubmit}
         disabled={loading}
         style={{
-          backgroundColor: '#e33062',
+          backgroundColor: '#ed706E',
           height: 50,
           borderRadius: 5,
           alignItems: 'center',
@@ -105,7 +105,7 @@ const SignInScreen = () => {
       >
         <Text
           style={{
-            color: '#e33062',
+            color: '#ed706E',
             fontSize: 18,
             fontWeight: 'bold',
           }}
