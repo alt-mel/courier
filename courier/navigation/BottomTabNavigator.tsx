@@ -13,9 +13,6 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
-      screenOptions={{
-        tabBarBadgeStyle: { borderTopWidth: 0, borderWidth: 0, borderTopColor: 'white' }
-      }}
     >
       <BottomTab.Screen
         name="Home"
