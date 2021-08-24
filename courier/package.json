@@ -21,7 +21,6 @@
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
     "@react-navigation/stack": "~5.12.8",
-    "@what3words/api": "^3.3.6",
     "expo": "~42.0.1",
     "expo-asset": "~8.3.2",
     "expo-constants": "~11.0.1",
