@@ -31,13 +31,17 @@ export default function DeliveriesScreen() {
     destination_location: '',
   }]);
 
-  const [geoData, setGeoData] = useState({ words: '' })
   const { data, error, loading } = useQuery(GET_DELIVERIES);
 
   useEffect(() => {
     if (error) {
-      console.log(error);
       Alert.alert('Error fetching delivery', error.message);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (loading) {
+      console.log('Loading delivery');
     }
   }, [error]);
 
@@ -51,6 +55,10 @@ export default function DeliveriesScreen() {
     return null;
   }
 
+  const renderItem = ({ item }) => (
+    <React.Fragment><Text>{item.price}</Text><Text>{item.title}</Text></React.Fragment>
+  );
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -61,12 +69,8 @@ export default function DeliveriesScreen() {
         <Text style={styles.title}>My Deliveries</Text>
         <FlatList
           data={deliveries}
-          renderItem={({ item }) => (<React.Fragment><Text>{item.price}</Text><Text>{item.title}</Text></React.Fragment>)}
+          renderItem={renderItem}
         />
-        {
-
-          <Text>{geoData.words}</Text>
-        }
       </View>
     </KeyboardAvoidingView>
   );
@@ -81,7 +85,7 @@ const styles = StyleSheet.create({
   title: {
     width: '100%',
     fontSize: 20,
-    color: '#e33062',
+    color: '#ed706e',
     fontWeight: 'bold',
     marginBottom: 12,
   },

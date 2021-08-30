@@ -13,16 +13,18 @@ export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
-  if (!isLoadingComplete) {
+  if (!isLoadingComplete)
     return null;
-  } else {
-    return (
+
+
+  return (
+    <ApolloProvider client={client}>
       <SafeAreaProvider>
-        <ApolloProvider client={client}>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
-        </ApolloProvider>
+        <Navigation colorScheme={colorScheme} />
+        <StatusBar />
       </SafeAreaProvider>
-    );
-  }
+    </ApolloProvider>
+
+  );
+}
 }
