@@ -24,7 +24,7 @@ export default function SendScreen() {
   const [selectedValue, setSelectedValue] = useState('');
   const [pickupLocation, setPickupLocation] = useState('');
   const [destinationLocation, setDestinationLocation] = useState('');
-  const [checked, setChecked] = useState('');
+  const [checked, setChecked] = useState(false);
 
   const [createDelivery, { data, error, loading }] = useMutation(CREATE_DELIVERY);
 
@@ -75,9 +75,9 @@ export default function SendScreen() {
           </View>
           <View style={styles.weightBox}>
             <Text style={styles.label}>Package Weight</Text>
-            <RadioButton onPress={() => setChecked('first')} selected={checked === 'first' ? 'checked' : 'unchecked'} value="0 - 5 kg" />
-            <RadioButton onPress={() => setChecked('second')} selected={checked === 'second' ? 'checked' : 'unchecked'} value="5 - 10 kg" />
-            <RadioButton onPress={() => setChecked('third')} selected={checked === 'third' ? 'checked' : 'unchecked'} value="Over 10 kg" />
+            <Pressable onPress={() => { setChecked(true); }}><RadioButton selected={checked} value="0 - 5 kg" /> </Pressable>
+            <RadioButton selected={false} value="5 - 10 kg" />
+            <RadioButton selected={false} value="Over 10 kg" />
           </View>
           <Pressable style={styles.button} onPress={() => {
             createDelivery({ variables: { pickup_location: 'test-pickup', destination_location: 'test-destination', price: 'test-price', title: 'test-Title' } });

@@ -55,7 +55,6 @@ function TabBarIcon(props: {
 
 const styles = StyleSheet.create({
   icon: {
-    backgroundColor: '#ED706E',
     marginBottom: -3,
     color: 'white',
     padding: '34'
