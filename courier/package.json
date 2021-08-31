@@ -6,11 +6,11 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "test": "jest --watch --coverage=false --changedSince=origin/main"
+
   },
   "jest": {
-    "preset": "jest-expo",
-    "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"]
+    "preset": "jest-expo"
   },
   "dependencies": {
     "@apollo/client": "^3.4.7",
@@ -50,6 +50,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.24.0",
     "jest-expo": "~41.0.0-beta.0",
+    "react-test-renderer": "^17.0.2",
     "typescript": "~4.0.0"
   },
   "private": true

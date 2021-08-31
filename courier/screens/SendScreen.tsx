@@ -1,11 +1,10 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import RadioButton from '../components/RadioButton';
 
 import {
   StyleSheet, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Picker
 } from 'react-native';
 import { Text, View, TextInput } from '../components/Themed';
-import RadioButton from '../components/RadioButton';
 
 import { useMutation, gql } from '@apollo/client';
 
@@ -30,7 +29,7 @@ export default function SendScreen() {
   const [createDelivery, { data, error, loading }] = useMutation(CREATE_DELIVERY);
 
   createDelivery({ variables: { pickup_location: 'test-pickup', destination_location: 'test-destination', price: 'test-price', title: 'test-Title' } });
-  
+
   return (
     <ScrollView>
       <KeyboardAvoidingView
