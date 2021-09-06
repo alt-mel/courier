@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import RadioButton from '../components/RadioButton';
 
 import {
   StyleSheet, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Picker
 } from 'react-native';
 import { Text, View, TextInput } from '../components/Themed';
+import { RadioButton } from 'react-native-paper';
 
 import { useMutation, gql } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
@@ -25,7 +25,7 @@ export default function SendScreen() {
   const [selectedValue, setSelectedValue] = useState('');
   const [pickupLocation, setPickupLocation] = useState('');
   const [destinationLocation, setDestinationLocation] = useState('');
-  const [checked, setChecked] = useState(false);
+  const [value, setValue] = React.useState('light');
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -86,18 +86,23 @@ export default function SendScreen() {
                 <Picker.Item label="Large" value="lerge" />
               </Picker>
             </View>
-            <View >
-              <Image
-                style={styles.image}
-                source={require('../assets/images/courier.jpg')}
-              />
-            </View>
           </View>
           <View style={styles.weightBox}>
             <Text style={styles.label}>Package Weight</Text>
-            <Pressable onPress={() => { setChecked(true); }}><RadioButton selected={checked} value="0 - 5 kg" /> </Pressable>
-            <RadioButton selected={false} value="5 - 10 kg" />
-            <RadioButton selected={false} value="Over 10 kg" />
+            <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
+              <View>
+                <Text>0 - 5 kg</Text>
+                <RadioButton value="light" />
+              </View>
+              <View>
+                <Text>5 - 10 kg</Text>
+                <RadioButton value="medium" />
+              </View>
+              <View>
+                <Text>Over 10 kg</Text>
+                <RadioButton value="second" />
+              </View>
+            </RadioButton.Group>
           </View>
           <Pressable style={styles.button} onPress={() => {
             createDelivery({ variables: { pickup_location: 'test-pickup', destination_location: 'test-destination', price: 'test-price', title: 'test-Title' } });
@@ -135,7 +140,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: '#ed706e',
+    backgroundColor: '#bebebe',
   },
   buttonText: {
     color: 'white',
@@ -148,7 +153,7 @@ const styles = StyleSheet.create({
     margin: '6%',
   },
   locationBox: {
-    backgroundColor: '#F3D598',
+    backgroundColor: '#bebebe',
     height: 153,
     width: '95%',
     margin: 'auto',

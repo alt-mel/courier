@@ -89,7 +89,7 @@ export default function DeliveriesScreen() {
         onPress={onSubmit}
         disabled={loading}
         style={{
-          backgroundColor: '#ed706E',
+          backgroundColor: '#bebebe',
           height: 50,
           borderRadius: 5,
           alignItems: 'center',
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   title: {
     width: '100%',
     fontSize: 20,
-    color: '#ed706e',
+    color: '#808080',
     fontWeight: 'bold',
     marginBottom: 12,
   },

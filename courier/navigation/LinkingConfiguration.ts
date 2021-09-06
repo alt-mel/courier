@@ -8,27 +8,15 @@ export default {
         screens: {
           Home: {
             screens: {
-              DeliveriesScreen: 'one',
+              DeliveriesScreen: 'deliveries',
+              SendScreen: 'send',
+              TrackScreen: 'track'
             },
           },
-          SignIn: {
+          Auth: {
             screens: {
-              SignInScreen: 'two',
-            },
-          },
-          SignUp: {
-            screens: {
-              SignUpScreen: 'three',
-            },
-          },
-          Send: {
-            screens: {
-              TabOneScreen: 'four',
-            },
-          },
-          Track: {
-            screens: {
-              SplashScreen: 'five',
+              SignInScreen: 'SignUp',
+              SignUpScreen: 'SignIn'
             },
           },
         },

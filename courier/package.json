@@ -7,11 +7,10 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watch --coverage=false --changedSince=origin/main"
-
   },
   "jest": {
     "preset": "jest-expo"
-  }, 
+  },
   "dependencies": {
     "@apollo/client": "^3.4.7",
     "@expo/vector-icons": "^12.0.0",
@@ -36,6 +35,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-async-storage": "^0.0.1",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-paper": "^4.9.2",
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",

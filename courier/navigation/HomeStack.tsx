@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome } from '@expo/vector-icons';
 import { HomeParamList } from '../types';
 import DeliveriesScreen from '../screens/DeliveriesScreen';
-import SplashScreen from '../screens/SplashScreen';
+import TrackScreen from '../screens/TrackScreen';
 import SendScreen from '../screens/SendScreen';
 import {
   StyleSheet
@@ -34,7 +34,7 @@ export default function HomeStack() {
       />
       <Tab.Screen
         name="Track"
-        component={SplashScreen}
+        component={TrackScreen}
         options={{
           title: 'Track',
           tabBarIcon: ({ color }) => <TabBarIcon name="map-marker" color={color} />,

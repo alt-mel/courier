@@ -16,15 +16,6 @@ import AuthStack from './AuthStack';
 import AsyncStorage from '@react-native-community/async-storage';
 import { RootStackParamList } from '../types';
 
-async function checkIfUserSignIn() {
-  console.log('HIIIIIII');
-  let value = AsyncStorage.getItem('token');
-  console.log('Value', value);
-  if (!value) {
-    return false;
-  }
-  return false;
-}
 const RootStack = createStackNavigator<RootStackParamList>();
 
 export default function Navigation({
