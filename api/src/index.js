@@ -37,6 +37,9 @@ const typeDefs = gql`
       price: String!
       pickup_location: String!
       destination_location: String!
+      description: String!
+      size: String!
+      weight: String!
     ): Delivery!
 
     updateDelivery(
@@ -50,24 +53,6 @@ const typeDefs = gql`
     deleteDelivery(id: ID!): Boolean!
 
     addUserToDelivery(deliveryId: ID!, userId: ID!): Delivery
-
-    addItemToDelivery(deliveryId: ID!, itemId: ID!): Delivery
-
-    createItem(
-      description: String!
-      size: String!
-      weight: String
-      deliveryId: ID!
-    ): Item!
-
-    updateItem(
-      id: ID!
-      description: String!
-      size: String!
-      weight: String!
-    ): Item!
-
-    deleteItem(id: ID!): Boolean!
   }
 
   input SignUpInput {
@@ -100,16 +85,10 @@ const typeDefs = gql`
     price: String!
     pickup_location: String!
     destination_location: String!
-    user: User
-    items: [Item]
-  }
-
-  type Item {
-    id: ID!
     description: String!
     size: String!
     weight: String!
-    delivery: Delivery!
+    user: User  
   }
 `;
 
@@ -161,7 +140,7 @@ const resolvers = {
 
     createDelivery: async (
       _,
-      { title, price, pickup_location, destination_location },
+      { title, price, pickup_location, destination_location, description, size, weight },
       { db, user }
     ) => {
       if (!user) {
@@ -173,8 +152,10 @@ const resolvers = {
         price,
         pickup_location,
         destination_location,
+        description,
+        size,
+        weight,
         userId: user._id,
-        itemId: [item._id],
       };
       const result = await db.collection('Delivery').insert(newDelivery);
       return result.ops[0];
@@ -182,7 +163,7 @@ const resolvers = {
 
     updateDelivery: async (
       _,
-      { id, title, price, pickup_location, destination_location },
+      { id, title, price, pickup_location, destination_location, description, size, weight },
       { db, user }
     ) => {
       if (!user) {
@@ -199,9 +180,11 @@ const resolvers = {
             price,
             pickup_location,
             destination_location,
-            userId,
-            itemIds,
-          },
+            description,
+            size,
+            weight,
+            userId
+                    },
         }
       );
 
@@ -236,36 +219,6 @@ const resolvers = {
       return delivery;
     },
 
-    addItemToDelivery: async (_, { deliveryId, itemId }, { db, user }) => {
-      if (!user) {
-        throw new Error('Authentication Error. Please sign in');
-      }
-
-      const delivery = await db
-        .collection('Delivery')
-        .findOne({ _id: ObjectID(deliveryId) });
-      if (!delivery) {
-        return null;
-      }
-      if (
-        delivery.itemIds.find((dbId) => dbId.toString() === userId.toString())
-      ) {
-        return delivery;
-      }
-      await db.collection('Delivery').updateOne(
-        {
-          _id: ObjectID(deliveryId),
-        },
-        {
-          $push: {
-            itemIds: ObjectID(itemId),
-          },
-        }
-      );
-      delivery.itemIds.push(ObjectID(itemId));
-      return delivery;
-    },
-
     deleteDelivery: async (_, { id }, { db, user }) => {
       if (!user) {
         throw new Error('Authentication Error. Please sign in');
@@ -274,52 +227,7 @@ const resolvers = {
       await db.collection('Delivery').removeOne({ _id: ObjectID(id) });
 
       return true;
-    },
-
-    createItem: async (
-      _,
-      { description, size, weight, deliveryId },
-      { db, user }
-    ) => {
-      if (!user) {
-        throw new Error('Authentication Error. Please sign in');
-      }
-      const newItem = {
-        description,
-        size,
-        weight,
-        deliveryId: ObjectID(deliveryId),
-      };
-      const result = await db.collection('Item').insert(newItem);
-      return result.ops[0];
-    },
-
-    updateItem: async (_, data, { db, user }) => {
-      if (!user) {
-        throw new Error('Authentication Error. Please sign in');
-      }
-
-      const result = await db.collection('Item').updateOne(
-        {
-          _id: ObjectID(data.id),
-        },
-        {
-          $set: data,
-        }
-      );
-
-      return await db.collection('Item').findOne({ _id: ObjectID(data.id) });
-    },
-
-    deleteItem: async (_, { id }, { db, user }) => {
-      if (!user) {
-        throw new Error('Authentication Error. Please sign in');
-      }
-
-      await db.collection('Item').removeOne({ _id: ObjectID(id) });
-
-      return true;
-    },
+    }
   },
 
   User: {
@@ -330,18 +238,7 @@ const resolvers = {
     id: ({ _id, id }) => _id || id,
     user: async ({ userId }, _, { db }) =>
       await db.collection('User').findOne({ _id: ObjectID(userId) }),
-    items: async ({ _id }, _, { db }) =>
-      await db
-        .collection('Item')
-        .find({ deliveryId: ObjectID(_id) })
-        .toArray(),
-  },
-
-  Item: {
-    id: ({ _id, id }) => _id || id,
-    delivery: async ({ deliveryId }, _, { db }) =>
-      await db.collection('Delivery').findOne({ _id: ObjectID(deliveryId) }),
-  },
+  }
 };
 
 const start = async () => {

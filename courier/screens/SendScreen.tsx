@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import {
-  StyleSheet, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Picker
+  StyleSheet, KeyboardAvoidingView, Platform, Pressable, ScrollView, Picker
 } from 'react-native';
 import { Text, View, TextInput } from '../components/Themed';
 import { RadioButton } from 'react-native-paper';
@@ -11,20 +11,29 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const CREATE_DELIVERY = gql`
-mutation CreateDelivery($title: String!, $price: String!, $pickup_location: String!, $destination_location: String!) {
-  createDelivery(title: $title, price: $price, pickup_location: $pickup_location, destination_location: $destination_location) {
+mutation CreateDelivery($title: String!, $price: String!, $pickup_location: String!, $destination_location: String!, $description: String!, $size: String!, $weight: String!) {
+  createDelivery(title: $title, price: $price, pickup_location: $pickup_location, destination_location: $destination_location, description: $description, size: $size, weight: $weight) {
     title
     price
     pickup_location
     destination_location
+    description
+    size
+    weight
 }
 }
 `;
 export default function SendScreen() {
 
   const [selectedValue, setSelectedValue] = useState('');
-  const [pickupLocation, setPickupLocation] = useState('');
-  const [destinationLocation, setDestinationLocation] = useState('');
+  const [pickup_location, setPickupLocation] = useState('');
+  const [destination_location, setDestinationLocation] = useState('');
+  const [price, setPrice] = useState('');
+  const [weight, setWeight] = useState('');
+  const [size, setSize] = useState('');
+
+  const [title, setTitle] = useState('');
+
   const [value, setValue] = React.useState('light');
   const navigation = useNavigation();
 
@@ -33,7 +42,7 @@ export default function SendScreen() {
       if (await isAuthenticated()) {
         navigation.navigate('Home');
       } else {
-        navigation.navigate('SignIn');
+        navigation.navigate('Root');
       }
     };
 
@@ -48,7 +57,10 @@ export default function SendScreen() {
 
   const [createDelivery, { data, error, loading }] = useMutation(CREATE_DELIVERY);
 
-  createDelivery({ variables: { pickup_location: 'test-pickup', destination_location: 'test-destination', price: 'test-price', title: 'test-Title' } });
+  const onSubmit = () => {
+    createDelivery({ variables: { pickup_location, destination_location, price, title } });
+    ;
+  };
 
   return (
     <ScrollView>
@@ -62,13 +74,13 @@ export default function SendScreen() {
           <View style={styles.locationBox}>
             <TextInput
               placeholder="Pick up....."
-              value={pickupLocation}
+              value={pickup_location}
               onChangeText={setPickupLocation}
               style={styles.textInput}
             />
             <TextInput
               placeholder="Drop off....."
-              value={destinationLocation}
+              value={destination_location}
               onChangeText={setDestinationLocation}
               style={styles.textInput}
             />
@@ -104,15 +116,12 @@ export default function SendScreen() {
               </View>
             </RadioButton.Group>
           </View>
-          <Pressable style={styles.button} onPress={() => {
-            createDelivery({ variables: { pickup_location: 'test-pickup', destination_location: 'test-destination', price: 'test-price', title: 'test-Title' } });
-          }
-          }>
+          <Pressable style={styles.button}>
             <Text style={styles.buttonText}>Create delivery</Text>
           </Pressable>
         </View>
       </KeyboardAvoidingView>
-    </ScrollView>
+    </ScrollView >
   );
 }
 

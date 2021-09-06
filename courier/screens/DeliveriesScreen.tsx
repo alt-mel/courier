@@ -21,6 +21,9 @@ const GET_DELIVERIES = gql`
       price
       pickup_location
       destination_location
+      description
+      size
+      weight
     }
   }
 `;
