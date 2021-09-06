@@ -3,26 +3,22 @@ import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/n
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
-  Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  Home: undefined;
-  Send: undefined;
-  Track: undefined;
-  SignIn: undefined;
-  SignUp: undefined;
+  Root: NavigatorScreenParams<HomeParamList> | undefined;
   Splash: undefined;
   NotFound: undefined;
+  Home: undefined;
+  Auth: undefined;
 };
 
-export type BottomTabParamList = {
+export type HomeParamList = {
   Home: undefined;
   Send: undefined;
   Track: undefined;
 };
 
-export type RootTabParamList = {
-  Home: undefined;
-  Send: undefined;
-  SplashScreen: undefined
+export type AuthParamList = {
+  SignIn: undefined;
+  SignUp: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -30,7 +26,7 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
   Screen
 >;
 
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<RootTabParamList, Screen>,
+export type HomecreenProps<Screen extends keyof HomeParamList> = CompositeScreenProps<
+  BottomTabScreenProps<HomeParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
 >;

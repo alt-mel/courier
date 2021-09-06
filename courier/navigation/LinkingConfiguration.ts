@@ -11,14 +11,24 @@ export default {
               DeliveriesScreen: 'one',
             },
           },
+          SignIn: {
+            screens: {
+              SignInScreen: 'two',
+            },
+          },
+          SignUp: {
+            screens: {
+              SignUpScreen: 'three',
+            },
+          },
           Send: {
             screens: {
-              TabOneScreen: 'two',
+              TabOneScreen: 'four',
             },
           },
           Track: {
             screens: {
-              SplashScreen: 'three',
+              SplashScreen: 'five',
             },
           },
         },

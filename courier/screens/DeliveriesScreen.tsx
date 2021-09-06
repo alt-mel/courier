@@ -4,9 +4,11 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  FlatList
+  FlatList,
+  Pressable
 } from 'react-native';
 import { View, Text } from '../components/Themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useQuery, gql } from '@apollo/client';
 
@@ -59,6 +61,17 @@ export default function DeliveriesScreen() {
     <React.Fragment><Text>{item.price}</Text><Text>{item.title}</Text></React.Fragment>
   );
 
+  const onSubmit = async () => {
+    try {
+      await AsyncStorage.removeItem('token');
+      return true;
+    }
+    catch (exception) {
+      return false;
+    }
+  };
+
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -72,6 +85,28 @@ export default function DeliveriesScreen() {
           renderItem={renderItem}
         />
       </View>
+      <Pressable
+        onPress={onSubmit}
+        disabled={loading}
+        style={{
+          backgroundColor: '#ed706E',
+          height: 50,
+          borderRadius: 5,
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: 30,
+        }}
+      >
+        <Text
+          style={{
+            color: 'white',
+            fontSize: 18,
+            fontWeight: 'bold',
+          }}
+        >
+          Sign Out
+        </Text>
+      </Pressable>
     </KeyboardAvoidingView>
   );
 }

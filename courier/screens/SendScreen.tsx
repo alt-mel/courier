@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RadioButton from '../components/RadioButton';
 
 import {
@@ -7,7 +7,8 @@ import {
 import { Text, View, TextInput } from '../components/Themed';
 
 import { useMutation, gql } from '@apollo/client';
-
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const CREATE_DELIVERY = gql`
 mutation CreateDelivery($title: String!, $price: String!, $pickup_location: String!, $destination_location: String!) {
@@ -25,6 +26,25 @@ export default function SendScreen() {
   const [pickupLocation, setPickupLocation] = useState('');
   const [destinationLocation, setDestinationLocation] = useState('');
   const [checked, setChecked] = useState(false);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      if (await isAuthenticated()) {
+        navigation.navigate('Home');
+      } else {
+        navigation.navigate('SignIn');
+      }
+    };
+
+    checkUser();
+  }, []);
+
+  const isAuthenticated = async () => {
+    const token = await AsyncStorage.getItem('token');
+    return !!token;
+  };
+
 
   const [createDelivery, { data, error, loading }] = useMutation(CREATE_DELIVERY);
 

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome } from '@expo/vector-icons';
-import { BottomTabParamList } from '../types';
+import { HomeParamList } from '../types';
 import DeliveriesScreen from '../screens/DeliveriesScreen';
 import SplashScreen from '../screens/SplashScreen';
 import SendScreen from '../screens/SendScreen';
@@ -10,18 +10,17 @@ import {
   StyleSheet
 } from 'react-native';
 
-const Tab = createBottomTabNavigator<BottomTabParamList>();
+const Tab = createBottomTabNavigator<HomeParamList>();
 
-export default function BottomTabNavigator() {
+export default function HomeStack() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
     >
       <Tab.Screen
-        name="Home"
+        name="Deliveries"
         component={DeliveriesScreen}
         options={{
-          title: 'Home',
+          title: 'Deliveries',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />

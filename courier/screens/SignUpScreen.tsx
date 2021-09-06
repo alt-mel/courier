@@ -122,7 +122,7 @@ const SignUpScreen = () => {
       >
         <Text
           style={{
-            color: '#e33062',
+            color: '#ed706E',
             fontSize: 18,
             fontWeight: 'bold',
           }}

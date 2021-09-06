@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Pressable, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable } from 'react-native';
 import { View, Text, TextInput } from '../components/Themed';
 
 import { useNavigation } from '@react-navigation/native';
@@ -27,16 +27,14 @@ const SignInScreen = () => {
 
   const [signIn, { data, error, loading }] = useMutation(SIGN_IN_MUTATION);
 
-  useEffect(() => {
-    if (error) {
-      Alert.alert('Invalid credentials, try again');
-    }
-  }, [error]);
-
   if (data) {
     AsyncStorage.setItem('token', data.signIn.token).then(() => {
-      navigation.navigate('Home');
     });
+
+
+    if (error) {
+      console.log(error);
+    }
   }
 
   const onSubmit = () => {
@@ -92,7 +90,7 @@ const SignInScreen = () => {
 
       <Pressable
         onPress={() => {
-          console.warn('nbavigate');
+          console.warn('navigate');
           navigation.navigate('SignUp');
         }}
         style={{
@@ -103,6 +101,17 @@ const SignInScreen = () => {
           marginTop: 30,
         }}
       >
+        {error &&
+          < Text
+            style={{
+              color: '#ed706E',
+              fontSize: 18,
+              fontWeight: 'bold',
+            }}
+          >
+            Invalid credentials, try again
+          </Text>
+        }
         <Text
           style={{
             color: '#ed706E',
@@ -113,7 +122,7 @@ const SignInScreen = () => {
           New here? Sign up
         </Text>
       </Pressable>
-    </View>
+    </View >
   );
 };
 
