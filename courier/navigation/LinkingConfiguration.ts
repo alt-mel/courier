@@ -8,15 +8,15 @@ export default {
         screens: {
           Home: {
             screens: {
-              DeliveriesScreen: 'deliveries',
-              SendScreen: 'send',
-              TrackScreen: 'track'
+              DeliveriesScreen: 'Deliveries',
+              SendScreen: 'Send',
+              TrackScreen: 'Track'
             },
           },
           Auth: {
             screens: {
-              SignInScreen: 'SignUp',
-              SignUpScreen: 'SignIn'
+              SignInScreen: 'SignIn',
+              SignUpScreen: 'SignUp'
             },
           },
         },

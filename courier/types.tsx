@@ -11,7 +11,7 @@ export type RootStackParamList = {
 };
 
 export type HomeParamList = {
-  Home: undefined;
+  Deliveries: undefined;
   Send: undefined;
   Track: undefined;
 };
