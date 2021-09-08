@@ -9,7 +9,10 @@
     "test": "jest --watch --coverage=false --changedSince=origin/main"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "setupFilesAfterEnv": [
+      "./setuptests.js"
+    ]
   },
   "dependencies": {
     "@apollo/client": "^3.4.7",
@@ -43,6 +46,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react-native": "^7.2.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",

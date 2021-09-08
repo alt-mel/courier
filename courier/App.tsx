@@ -1,12 +1,20 @@
-import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import { StatusBar } from 'expo-status-bar';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import 'react-native-gesture-handler';
 import { ApolloProvider } from '@apollo/client';
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
+
 import Navigation from './navigation';
+import LinkingConfiguration from './navigation/LinkingConfiguration';
+
 import { client } from './apollo';
 
 export default function App() {
@@ -19,8 +27,13 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
+        <NavigationContainer
+          linking={LinkingConfiguration}
+          theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+        >
+          <Navigation />
+          <StatusBar />
+        </NavigationContainer>
       </SafeAreaProvider>
     </ApolloProvider>
 

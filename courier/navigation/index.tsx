@@ -1,40 +1,44 @@
-import {
-  NavigationContainer,
-  DefaultTheme,
-  DarkTheme,
-} from '@react-navigation/native';
-
+import React, { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
-import LinkingConfiguration from './LinkingConfiguration';
 import HomeStack from './HomeStack';
 import AuthStack from './AuthStack';
-import AsyncStorage from '@react-native-community/async-storage';
 import { RootStackParamList } from '../types';
+
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
-export default function Navigation({
-  colorScheme,
-}: {
-  colorScheme: ColorSchemeName;
-}) {
+const isAuthenticated = async () => {
+  const token = await AsyncStorage.getItem('token');
+  return !!token;
+};
 
 
+export default function Navigation(){
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      if (await isAuthenticated()) {
+        navigation.navigate('Home');
+      } else {
+        navigation.navigate('Auth');
+      }
+    };
+
+    checkUser();
+  }, []);
 
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-    >
-      <RootStack.Navigator screenOptions={{ headerShown: false }}>
 
-        {AsyncStorage.getItem('token') !== null ? <RootStack.Screen name="Home" component={HomeStack} /> : <RootStack.Screen name="Auth" component={AuthStack} />}
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      <RootStack.Screen name="Home" component={HomeStack} />
+      <RootStack.Screen name="Auth" component={AuthStack} />
+    </RootStack.Navigator>
   );
 }

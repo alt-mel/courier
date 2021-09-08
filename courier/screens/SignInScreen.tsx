@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Pressable } from 'react-native';
-import { View, Text, TextInput } from '../components/Themed';
-
-import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { useMutation, gql } from '@apollo/client';
+import { View, Text, TextInput } from '../components/Themed';
 
 const SIGN_IN_MUTATION = gql`
   mutation signIn($email: String!, $password: String!) {
@@ -19,24 +18,23 @@ const SIGN_IN_MUTATION = gql`
   }
 `;
 
-const SignInScreen = () => {
+const SignInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const navigation = useNavigation();
 
   const [signIn, { data, error, loading }] = useMutation(SIGN_IN_MUTATION);
 
   if (data) {
     AsyncStorage.setItem('token', data.signIn.token).then(() => {
+      console.warn('navigate: Home');
+      navigation.navigate('Home');
     });
-
-
-    if (error) {
-      console.log(error);
-    }
   }
 
+  if (error) {
+    console.log(error);
+  }
+  
   const onSubmit = () => {
     signIn({ variables: { email, password } });
   };
@@ -45,6 +43,7 @@ const SignInScreen = () => {
     <View style={{ padding: 20 }}>
       <TextInput
         placeholder="email@email.com"
+        testID="SignIn.Email"
         value={email}
         onChangeText={setEmail}
         style={{
@@ -56,6 +55,7 @@ const SignInScreen = () => {
 
       <TextInput
         placeholder="password"
+        testID="SignIn.Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -68,6 +68,8 @@ const SignInScreen = () => {
       <Pressable
         onPress={onSubmit}
         disabled={loading}
+        testID="SignIn.Button"
+
         style={{
           backgroundColor: '#ed706E',
           height: 50,
@@ -90,7 +92,7 @@ const SignInScreen = () => {
 
       <Pressable
         onPress={() => {
-          console.warn('navigate');
+          console.warn('navigate: Sign Up');
           navigation.navigate('SignUp');
         }}
         style={{
@@ -127,3 +129,4 @@ const SignInScreen = () => {
 };
 
 export default SignInScreen;
+

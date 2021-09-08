@@ -1,20 +1,20 @@
 
 import * as React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FontAwesome } from '@expo/vector-icons';
-import { HomeParamList } from '../types';
-import DeliveriesScreen from '../screens/DeliveriesScreen';
-import TrackScreen from '../screens/TrackScreen';
-import SendScreen from '../screens/SendScreen';
 import {
   StyleSheet
 } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { FontAwesome } from '@expo/vector-icons';
+import DeliveriesScreen from '../screens/DeliveriesScreen';
+import TrackScreen from '../screens/TrackScreen';
+import SendScreen from '../screens/SendScreen';
+import { HomeParamList } from '../types';
 
 const Tab = createBottomTabNavigator<HomeParamList>();
 
 export default function HomeStack() {
   return (
-    <Tab.Navigator
+    <Tab.Navigator 
     >
       <Tab.Screen
         name="Deliveries"

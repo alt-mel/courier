@@ -5,9 +5,9 @@ import {
   Alert,
 } from 'react-native';
 import { View, Text, TextInput } from '../components/Themed';
+import { useLinkTo } from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 
 import { useMutation, gql } from '@apollo/client';
 
@@ -24,12 +24,11 @@ const SIGN_UP_MUTATION = gql`
   }
 `;
 
-const SignUpScreen = () => {
+const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-
-  const navigation = useNavigation();
+  const linkTo = useLinkTo();
 
   const [signUp, { data, error, loading }] = useMutation(SIGN_UP_MUTATION);
 
@@ -39,7 +38,8 @@ const SignUpScreen = () => {
 
   if (data) {
     AsyncStorage.setItem('token', data.signUp.token).then(() => {
-      navigation.navigate('Home');
+      // navigation.navigate('Home');
+      linkTo('/Home/Deliveries');
     });
   }
 
@@ -86,7 +86,7 @@ const SignUpScreen = () => {
       <Pressable
         onPress={onSubmit}
         style={{
-          backgroundColor: '#e33062',
+          backgroundColor: '#ed706E',
           height: 50,
           borderRadius: 5,
           alignItems: 'center',
@@ -108,10 +108,10 @@ const SignUpScreen = () => {
       </Pressable>
 
       <Pressable
-        disabled={loading}
         onPress={() => {
           navigation.navigate('SignIn');
         }}
+        disabled={loading}
         style={{
           height: 50,
           borderRadius: 5,

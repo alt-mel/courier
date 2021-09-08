@@ -7,10 +7,11 @@ import {
   FlatList,
   Pressable
 } from 'react-native';
-import { View, Text } from '../components/Themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { useQuery, gql } from '@apollo/client';
+
+import { View, Text } from '../components/Themed';
+
 
 
 const GET_DELIVERIES = gql`
@@ -28,7 +29,7 @@ const GET_DELIVERIES = gql`
   }
 `;
 
-export default function DeliveriesScreen() {
+export default function DeliveriesScreen({ navigation }) {
   const [deliveries, setDeliveries] = useState([{
     title: '',
     price: '',
@@ -67,7 +68,8 @@ export default function DeliveriesScreen() {
   const onSubmit = async () => {
     try {
       await AsyncStorage.removeItem('token');
-      return true;
+      navigation.navigate('Auth');
+
     }
     catch (exception) {
       return false;
