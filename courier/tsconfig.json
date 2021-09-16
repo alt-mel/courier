@@ -1,11 +1,40 @@
 {
-  "extends": "expo/tsconfig.base",
-  "moduleResolution": "node",
   "compilerOptions": {
     "jsx": "react",
-    "strict": true
+    "target": "es6",
+    "module": "commonjs",
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowJs": true,
+    "outDir": "build",
+    "noResolve": false,
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./secure/node_modules/@types",
+      "./public/node_modules/@types"
+    ],
+    "types": [ "react" ]
   },
-  "include": [
-    "./setuptests.js"
+  "filesGlob": [
   ],
+  "include": [
+    "secure/src/**/*",
+    "public/react_src/**/*"
+  ],
+  "exclude": [
+    "node_modules/**/*",
+    "public/node_modules/**/*",
+    "secure/node_modules/**/*",
+    "public/dist"
+  ],
+  "types": [ "react" ]
 }
+I'm trying to compile it with webpack/ts

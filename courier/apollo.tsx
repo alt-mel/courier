@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const URI = 'http://localhost:4000/';
 
 const httpLink = createHttpLink({
-  uri: URI,
+  uri: URI
 });
 
 const authLink = setContext(async (_, { headers }) => {
@@ -13,12 +13,14 @@ const authLink = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token || '',
-    },
+      authorization:
+        token ||
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMzYzOTc0YjZmMjZjNmNkNzg4MTE4MyIsImlhdCI6MTYzMTcxMzEyOSwiZXhwIjoxNjM0MzA1MTI5fQ.-FcVUin-N599AZhmAoD6gRuhRvReNS4SnyftoMaLjz4'
+    }
   };
 });
 
 export const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache()
 });

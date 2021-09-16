@@ -40,6 +40,7 @@ const typeDefs = gql`
       description: String!
       size: String!
       weight: String!
+      status: String!
     ): Delivery!
 
     updateDelivery(
@@ -48,6 +49,10 @@ const typeDefs = gql`
       price: String!
       pickup_location: String!
       destination_location: String!
+      description: String!
+      size: String!
+      weight: String!
+      status: String!
     ): Delivery!
 
     deleteDelivery(id: ID!): Boolean!
@@ -88,6 +93,7 @@ const typeDefs = gql`
     description: String!
     size: String!
     weight: String!
+    status: String!
     user: User  
   }
 `;
@@ -155,6 +161,7 @@ const resolvers = {
         description,
         size,
         weight,
+        status: "waiting",
         userId: user._id,
       };
       const result = await db.collection('Delivery').insert(newDelivery);
@@ -163,7 +170,7 @@ const resolvers = {
 
     updateDelivery: async (
       _,
-      { id, title, price, pickup_location, destination_location, description, size, weight },
+      { id, title, price, pickup_location, destination_location, description, size, weight, status },
       { db, user }
     ) => {
       if (!user) {
@@ -183,6 +190,7 @@ const resolvers = {
             description,
             size,
             weight,
+            status,
             userId
                     },
         }

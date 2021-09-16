@@ -17,8 +17,12 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
-    'react/prop-types': ['off'],
-    'react/display-name': ['off'],
+    'react/prop-types': 0,
+    'react-hooks/rules-of-hooks': error,
+    'prettier/prettier': [
+      'error',
+      JSON.parse(require('fs').readFileSync('.prettierrc', { encoding: 'utf8' }))
+    ],
     'react/no-unescaped-entities': ['off'],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],

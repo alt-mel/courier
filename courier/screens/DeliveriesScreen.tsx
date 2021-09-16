@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import * as React from 'react';
 import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
   Alert,
   FlatList,
-  Pressable
+  Pressable,
+  Dimensions,
+  TouchableWithoutFeedback,
+  ScrollView
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQuery, gql } from '@apollo/client';
 
 import { View, Text } from '../components/Themed';
-
-
 
 const GET_DELIVERIES = gql`
   query myDeliveries {
@@ -25,18 +27,24 @@ const GET_DELIVERIES = gql`
       description
       size
       weight
+      status
     }
   }
 `;
 
 export default function DeliveriesScreen({ navigation }) {
-  const [deliveries, setDeliveries] = useState([{
-    title: '',
-    price: '',
-    pickup_location: '',
-    destination_location: '',
-  }]);
+  const [deliveries, setDeliveries] = useState([]);
 
+  const [isEnabled, setIsEnabled] = useState(true);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  const [state, setState] = useState({
+    loading: false,
+    data: [],
+    error: null
+  });
+
+  const [arrayHolder, setArrayHolder] = useState([]);
   const { data, error, loading } = useQuery(GET_DELIVERIES);
 
   useEffect(() => {
@@ -54,6 +62,7 @@ export default function DeliveriesScreen({ navigation }) {
   useEffect(() => {
     if (data) {
       setDeliveries(data.myDeliveries);
+      console.log('Data', data);
     }
   }, [data]);
 
@@ -62,57 +71,59 @@ export default function DeliveriesScreen({ navigation }) {
   }
 
   const renderItem = ({ item }) => (
-    <React.Fragment><Text>{item.price}</Text><Text>{item.title}</Text></React.Fragment>
+    <TouchableWithoutFeedback onPress={() => selectItem(item)}>
+      <View style={styles.item}>
+        <Text>{item.title}</Text>
+        <Text>{item.status}</Text>
+      </View>
+    </TouchableWithoutFeedback>
   );
 
   const onSubmit = async () => {
     try {
       await AsyncStorage.removeItem('token');
       navigation.navigate('Auth');
-
-    }
-    catch (exception) {
+    } catch (exception) {
       return false;
     }
   };
 
+  const selectItem = (item) => {
+    console.log('Selected Item :', item);
+    navigation.navigate('Track', {
+      item: item
+    });
+  };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 130 : 0}
-      style={{ flex: 1 }}
-    >
-      <View style={styles.container}>
-        <Text style={styles.title}>My Deliveries</Text>
-        <FlatList
-          data={deliveries}
-          renderItem={renderItem}
-        />
-      </View>
-      <Pressable
-        onPress={onSubmit}
-        disabled={loading}
-        style={{
-          backgroundColor: '#bebebe',
-          height: 50,
-          borderRadius: 5,
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: 30,
-        }}
+    <ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 130 : 0}
+        style={{ flex: 1 }}
       >
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 18,
-            fontWeight: 'bold',
-          }}
-        >
-          Sign Out
-        </Text>
-      </Pressable>
-    </KeyboardAvoidingView>
+        <View style={styles.container}>
+          <Text style={styles.title}>My Deliveries</Text>
+          <FlatList
+            style={styles.itemList}
+            data={deliveries}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+          />
+          <Pressable onPress={onSubmit} disabled={loading} style={styles.button}>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 18,
+                fontWeight: 'bold'
+              }}
+            >
+              Sign Out
+            </Text>
+          </Pressable>
+        </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 
@@ -121,12 +132,31 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 12,
+    display: 'flex'
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#bebebe'
   },
   title: {
     width: '100%',
-    fontSize: 20,
-    color: '#808080',
-    fontWeight: 'bold',
-    marginBottom: 12,
+    alignItems: 'center',
+    fontSize: 24,
+    marginBottom: 52
   },
+  item: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: Dimensions.get('window').width / 2,
+    justifyContent: 'space-between',
+    paddingTop: 30
+  },
+  itemList: {
+    margin: 8
+  }
 });

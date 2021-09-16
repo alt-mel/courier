@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import {
-  Pressable,
-  ActivityIndicator,
-  Alert,
-} from 'react-native';
+import { useState } from 'react';
+import * as React from 'react';
+
+import { Pressable, ActivityIndicator, Alert } from 'react-native';
 import { View, Text, TextInput } from '../components/Themed';
 import { useLinkTo } from '@react-navigation/native';
 
@@ -56,7 +54,7 @@ const SignUpScreen = ({ navigation }) => {
         style={{
           fontSize: 18,
           width: '100%',
-          marginVertical: 25,
+          marginVertical: 25
         }}
       />
 
@@ -67,7 +65,7 @@ const SignUpScreen = ({ navigation }) => {
         style={{
           fontSize: 18,
           width: '100%',
-          marginVertical: 25,
+          marginVertical: 25
         }}
       />
 
@@ -79,7 +77,7 @@ const SignUpScreen = ({ navigation }) => {
         style={{
           fontSize: 18,
           width: '100%',
-          marginVertical: 25,
+          marginVertical: 25
         }}
       />
 
@@ -92,7 +90,7 @@ const SignUpScreen = ({ navigation }) => {
           alignItems: 'center',
           flexDirection: 'row',
           justifyContent: 'center',
-          marginTop: 30,
+          marginTop: 30
         }}
       >
         {loading && <ActivityIndicator />}
@@ -100,7 +98,7 @@ const SignUpScreen = ({ navigation }) => {
           style={{
             color: 'white',
             fontSize: 18,
-            fontWeight: 'bold',
+            fontWeight: 'bold'
           }}
         >
           Sign up
@@ -117,14 +115,14 @@ const SignUpScreen = ({ navigation }) => {
           borderRadius: 5,
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: 30,
+          marginTop: 30
         }}
       >
         <Text
           style={{
             color: '#ed706E',
             fontSize: 18,
-            fontWeight: 'bold',
+            fontWeight: 'bold'
           }}
         >
           Already Have an account? Sign in

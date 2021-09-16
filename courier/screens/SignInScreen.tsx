@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import * as React from 'react';
+
 import { Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -34,7 +36,7 @@ const SignInScreen = ({ navigation }) => {
   if (error) {
     console.log(error);
   }
-  
+
   const onSubmit = () => {
     signIn({ variables: { email, password } });
   };
@@ -49,7 +51,7 @@ const SignInScreen = ({ navigation }) => {
         style={{
           fontSize: 18,
           width: '100%',
-          marginVertical: 25,
+          marginVertical: 25
         }}
       />
 
@@ -62,28 +64,27 @@ const SignInScreen = ({ navigation }) => {
         style={{
           fontSize: 18,
           width: '100%',
-          marginVertical: 25,
+          marginVertical: 25
         }}
       />
       <Pressable
         onPress={onSubmit}
         disabled={loading}
         testID="SignIn.Button"
-
         style={{
           backgroundColor: '#ed706E',
           height: 50,
           borderRadius: 5,
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: 30,
+          marginTop: 30
         }}
       >
         <Text
           style={{
             color: 'white',
             fontSize: 18,
-            fontWeight: 'bold',
+            fontWeight: 'bold'
           }}
         >
           Sign In
@@ -100,33 +101,32 @@ const SignInScreen = ({ navigation }) => {
           borderRadius: 5,
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: 30,
+          marginTop: 30
         }}
       >
-        {error &&
-          < Text
+        {error && (
+          <Text
             style={{
               color: '#ed706E',
               fontSize: 18,
-              fontWeight: 'bold',
+              fontWeight: 'bold'
             }}
           >
             Invalid credentials, try again
           </Text>
-        }
+        )}
         <Text
           style={{
             color: '#ed706E',
             fontSize: 18,
-            fontWeight: 'bold',
+            fontWeight: 'bold'
           }}
         >
           New here? Sign up
         </Text>
       </Pressable>
-    </View >
+    </View>
   );
 };
 
 export default SignInScreen;
-
