@@ -35,16 +35,6 @@ const GET_DELIVERIES = gql`
 export default function DeliveriesScreen({ navigation }) {
   const [deliveries, setDeliveries] = useState([]);
 
-  const [isEnabled, setIsEnabled] = useState(true);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
-
-  const [state, setState] = useState({
-    loading: false,
-    data: [],
-    error: null
-  });
-
-  const [arrayHolder, setArrayHolder] = useState([]);
   const { data, error, loading } = useQuery(GET_DELIVERIES);
 
   useEffect(() => {

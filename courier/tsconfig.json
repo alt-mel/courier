@@ -27,7 +27,9 @@
   ],
   "include": [
     "secure/src/**/*",
-    "public/react_src/**/*"
+    "public/react_src/**/*",
+    "./setuptests.js"
+
   ],
   "exclude": [
     "node_modules/**/*",
@@ -37,4 +39,3 @@
   ],
   "types": [ "react" ]
 }
-I'm trying to compile it with webpack/ts
