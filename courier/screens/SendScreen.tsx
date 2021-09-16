@@ -195,13 +195,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: 22
   },
-  // locationBox: {
-  //   backgroundColor: '#bebebe',
-  //   height: 153,
-  //   width: '95%',
-  //   margin: 'auto',
-  //   marginBottom: 52
-  // },
   title: {
     width: '100%',
     alignItems: 'center',
@@ -217,12 +210,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 14,
-    // lineHeight: 19,
-    // width: '95%',
-    // marginLeft: '3%',
-    // marginRight: '3%',
-    // marginTop: 20,
-
     height: 40,
     margin: 12,
     borderWidth: 1,
