@@ -72,7 +72,7 @@ const SignInScreen = ({ navigation }) => {
         disabled={loading}
         testID="SignIn.Button"
         style={{
-          backgroundColor: '#ed706E',
+          backgroundColor: '#bebebe',
           height: 50,
           borderRadius: 5,
           alignItems: 'center',
@@ -107,7 +107,7 @@ const SignInScreen = ({ navigation }) => {
         {error && (
           <Text
             style={{
-              color: '#ed706E',
+              color: '#bebebe',
               fontSize: 18,
               fontWeight: 'bold'
             }}
@@ -117,7 +117,7 @@ const SignInScreen = ({ navigation }) => {
         )}
         <Text
           style={{
-            color: '#ed706E',
+            color: '#bebebe',
             fontSize: 18,
             fontWeight: 'bold'
           }}

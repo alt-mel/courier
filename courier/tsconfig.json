@@ -21,15 +21,15 @@
       "./secure/node_modules/@types",
       "./public/node_modules/@types"
     ],
-    "types": [ "react" ]
+    "types": [
+      "react"
+    ]
   },
-  "filesGlob": [
-  ],
+  "filesGlob": [],
   "include": [
     "secure/src/**/*",
     "public/react_src/**/*",
     "./setuptests.js"
-
   ],
   "exclude": [
     "node_modules/**/*",
@@ -37,5 +37,8 @@
     "secure/node_modules/**/*",
     "public/dist"
   ],
-  "types": [ "react" ]
+  "types": [
+    "react"
+  ],
+  "extends": "expo/tsconfig.base"
 }

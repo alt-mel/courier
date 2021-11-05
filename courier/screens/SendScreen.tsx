@@ -54,18 +54,16 @@ export default function SendScreen({ navigation }) {
   const [size, setSize] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('waiting');
+  const status = 'waiting';
 
-  const [newDeliveryId, setNewDeliveryId] = useState('');
   const [createDelivery, { data, error, loading }] = useMutation(CREATE_DELIVERY);
 
   if (data) {
     console.warn('Delivery Created');
-    console.log(data.id);
-    setNewDeliveryId(data.id);
-    // navigation.navigate('Track', {
-    //   item: data?.id
-    // });
+    console.log(data?.id);
+    navigation.navigate('Track', {
+      item: data
+    });
   }
 
   if (error) {
