@@ -1,22 +1,9 @@
 import * as React from 'react';
-import renderer from 'react-test-renderer';
 import { MockedProvider } from '@apollo/client/testing';
-import { gql } from '@apollo/client';
 import {render, fireEvent, act } from '@testing-library/react-native';
-import SignInScreen from '../SignInScreen';
+import wait from "waait";
 
-const SIGN_IN_MUTATION = gql`
-  mutation signIn($email: String!, $password: String!) {
-    signIn(input: { email: $email, password: $password }) {
-      token
-      user {
-        id
-        name
-        email
-      }
-    }
-  }
-`;
+import SignInScreen, { SIGN_IN_MUTATION } from '../SignInScreen';
 
 const mocks = [ {
     request: {
@@ -41,19 +28,42 @@ const mocks = [ {
   },];
 
 it('renders the Sign In Screen', () => {
-  const tree = renderer.create( <MockedProvider><SignInScreen/></MockedProvider>).toJSON();
+  const tree = render( <MockedProvider><SignInScreen/></MockedProvider>).toJSON();
   expect(tree).toMatchSnapshot();
 });
 
+it('renders default elements', () => {
+  const { getByPlaceholderText, getByTestId } = render(<MockedProvider mocks={mocks} addTypename={false}><SignInScreen/></MockedProvider> );
+  expect(getByPlaceholderText("email@email.com")).not.toBeNull();
+  expect(getByPlaceholderText("password")).not.toBeNull();
+  expect(getByTestId('SignIn.Button'))
+});
 
-it('shows invalid credentials message', async () => {
+it('shows invalid credentials error message', async () => {
     const {getByTestId, queryAllByText } = render(<MockedProvider mocks={mocks} addTypename={false}><SignInScreen/></MockedProvider> );
+
+    fireEvent.changeText(getByTestId('SignIn.Email'), 'msadsd'),
+    fireEvent.changeText(getByTestId('SignIn.Password'), 'asdasdas'),    
+    fireEvent.press(getByTestId('SignIn.Button'))
+
+    await act(async () => {
+      await wait(0);
+    });
   
-     act(() =>
-        fireEvent.changeText(getByTestId('SignIn.Email'), 'skadjsk'),
-        fireEvent.changeText(getByTestId('SignIn.Password'), 'skadjsk'),    
-        fireEvent.press(getByTestId('SignIn.Button'))
-    );
-    
-    expect(queryAllByText('Invalid credentials, try again')).toBe(1);  
+    expect(queryAllByText("Invalid credentials, try again").length).toBe(1)
+});
+
+it('handles valid input submission', async () => {
+  const pushMock = jest.fn();
+  const {getByTestId } = render(<MockedProvider mocks={mocks} addTypename={false}><SignInScreen navigation={{ navigate: pushMock }}/></MockedProvider> );
+
+  fireEvent.changeText(getByTestId('SignIn.Email'), 'email'),
+  fireEvent.changeText(getByTestId('SignIn.Password'), 'password'),    
+  fireEvent.press(getByTestId('SignIn.Button'))
+
+  await act(async () => {
+    await wait(0);
   });
+
+  expect(pushMock).toBeCalledWith("Home")
+});

@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, gql } from '@apollo/client';
 import { View, Text, TextInput } from '../components/Themed';
 
-const SIGN_IN_MUTATION = gql`
+export const SIGN_IN_MUTATION = gql`
   mutation signIn($email: String!, $password: String!) {
     signIn(input: { email: $email, password: $password }) {
       token

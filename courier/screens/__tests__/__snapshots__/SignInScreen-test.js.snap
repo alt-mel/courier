@@ -71,7 +71,7 @@ exports[`renders the Sign In Screen 1`] = `
     style={
       Object {
         "alignItems": "center",
-        "backgroundColor": "#ed706E",
+        "backgroundColor": "#bebebe",
         "borderRadius": 5,
         "height": 50,
         "justifyContent": "center",
@@ -126,7 +126,7 @@ exports[`renders the Sign In Screen 1`] = `
             "color": "#000",
           },
           Object {
-            "color": "#ed706E",
+            "color": "#bebebe",
             "fontSize": 18,
             "fontWeight": "bold",
           },
