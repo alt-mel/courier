@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the Sign Up Screen 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#fff",
+      },
+      Object {
+        "padding": 20,
+      },
+    ]
+  }
+>
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    placeholder="name"
+    rejectResponderTermination={true}
+    style={
+      Array [
+        Object {
+          "color": "#000",
+        },
+        Object {
+          "fontSize": 18,
+          "marginVertical": 25,
+          "width": "100%",
+        },
+      ]
+    }
+    testID="SignUp.Name"
+    underlineColorAndroid="transparent"
+    value=""
+  />
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    placeholder="email@email.com"
+    rejectResponderTermination={true}
+    style={
+      Array [
+        Object {
+          "color": "#000",
+        },
+        Object {
+          "fontSize": 18,
+          "marginVertical": 25,
+          "width": "100%",
+        },
+      ]
+    }
+    testID="SignUp.Email"
+    underlineColorAndroid="transparent"
+    value=""
+  />
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    placeholder="password"
+    rejectResponderTermination={true}
+    secureTextEntry={true}
+    style={
+      Array [
+        Object {
+          "color": "#000",
+        },
+        Object {
+          "fontSize": 18,
+          "marginVertical": 25,
+          "width": "100%",
+        },
+      ]
+    }
+    testID="SignUp.Password"
+    underlineColorAndroid="transparent"
+    value=""
+  />
+  <View
+    accessible={true}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#bebebe",
+        "borderRadius": 5,
+        "flexDirection": "row",
+        "height": 50,
+        "justifyContent": "center",
+        "marginTop": 30,
+      }
+    }
+    testID="SignUp.Button"
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000",
+          },
+          Object {
+            "color": "white",
+            "fontSize": 18,
+            "fontWeight": "bold",
+          },
+        ]
+      }
+    >
+      Sign up
+    </Text>
+  </View>
+  <View
+    accessible={true}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "borderRadius": 5,
+        "height": 50,
+        "justifyContent": "center",
+        "marginTop": 30,
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000",
+          },
+          Object {
+            "color": "#bebebe",
+            "fontSize": 18,
+            "fontWeight": "bold",
+          },
+        ]
+      }
+    >
+      Already Have an account? Sign in
+    </Text>
+  </View>
+</View>
+`;

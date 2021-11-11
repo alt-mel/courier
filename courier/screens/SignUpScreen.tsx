@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useMutation, gql } from '@apollo/client';
 
-const SIGN_UP_MUTATION = gql`
+export const SIGN_UP_MUTATION = gql`
   mutation signUp($email: String!, $password: String!, $name: String!) {
     signUp(input: { email: $email, password: $password, name: $name }) {
       token
@@ -26,7 +26,6 @@ const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const linkTo = useLinkTo();
 
   const [signUp, { data, error, loading }] = useMutation(SIGN_UP_MUTATION);
 
@@ -36,8 +35,7 @@ const SignUpScreen = ({ navigation }) => {
 
   if (data) {
     AsyncStorage.setItem('token', data.signUp.token).then(() => {
-      // navigation.navigate('Home');
-      linkTo('/Home/Deliveries');
+      navigation.navigate('Home');
     });
   }
 
@@ -50,6 +48,7 @@ const SignUpScreen = ({ navigation }) => {
       <TextInput
         placeholder="name"
         value={name}
+        testID="SignUp.Name"
         onChangeText={setName}
         style={{
           fontSize: 18,
@@ -62,6 +61,7 @@ const SignUpScreen = ({ navigation }) => {
         placeholder="email@email.com"
         value={email}
         onChangeText={setEmail}
+        testID="SignUp.Email"
         style={{
           fontSize: 18,
           width: '100%',
@@ -73,6 +73,7 @@ const SignUpScreen = ({ navigation }) => {
         placeholder="password"
         value={password}
         onChangeText={setPassword}
+        testID="SignUp.Password"
         secureTextEntry
         style={{
           fontSize: 18,
@@ -82,9 +83,10 @@ const SignUpScreen = ({ navigation }) => {
       />
 
       <Pressable
+        testID="SignUp.Button"
         onPress={onSubmit}
         style={{
-          backgroundColor: '#ed706E',
+          backgroundColor: '#bebebe',
           height: 50,
           borderRadius: 5,
           alignItems: 'center',
@@ -120,7 +122,7 @@ const SignUpScreen = ({ navigation }) => {
       >
         <Text
           style={{
-            color: '#ed706E',
+            color: '#bebebe',
             fontSize: 18,
             fontWeight: 'bold'
           }}
