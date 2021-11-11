@@ -3,8 +3,8 @@ import * as React from 'react';
 
 import { Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { useMutation, gql } from '@apollo/client';
+
 import { View, Text, TextInput } from '../components/Themed';
 
 export const SIGN_IN_MUTATION = gql`
@@ -28,7 +28,6 @@ const SignInScreen = ({ navigation }) => {
 
   if (data) {
     AsyncStorage.setItem('token', data.signIn.token).then(() => {
-      console.warn('navigate: Home');
       navigation.navigate('Home');
     });
   }

@@ -16,7 +16,7 @@ import { useQuery, gql } from '@apollo/client';
 
 import { View, Text } from '../components/Themed';
 
-const GET_DELIVERIES = gql`
+export const GET_DELIVERIES_QUERY = gql`
   query myDeliveries {
     myDeliveries {
       id
@@ -35,7 +35,7 @@ const GET_DELIVERIES = gql`
 export default function DeliveriesScreen({ navigation }) {
   const [deliveries, setDeliveries] = useState([]);
 
-  const { data, error, loading } = useQuery(GET_DELIVERIES);
+  const { data, error, loading } = useQuery(GET_DELIVERIES_QUERY);
 
   useEffect(() => {
     if (error) {
@@ -62,7 +62,7 @@ export default function DeliveriesScreen({ navigation }) {
 
   const renderItem = ({ item }) => (
     <TouchableWithoutFeedback onPress={() => selectItem(item)}>
-      <View style={styles.item}>
+      <View testID={`Deliveries.Item-${item.id}`} style={styles.item}>
         <Text>{item.title}</Text>
         <Text>{item.status}</Text>
       </View>
@@ -93,7 +93,9 @@ export default function DeliveriesScreen({ navigation }) {
         style={{ flex: 1 }}
       >
         <View style={styles.container}>
-          <Text style={styles.title}>My Deliveries</Text>
+          <Text testID="Deliveries.Title" style={styles.title}>
+            My Deliveries
+          </Text>
           <FlatList
             style={styles.itemList}
             data={deliveries}

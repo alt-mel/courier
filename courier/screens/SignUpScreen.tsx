@@ -2,12 +2,10 @@ import { useState } from 'react';
 import * as React from 'react';
 
 import { Pressable, ActivityIndicator, Alert } from 'react-native';
-import { View, Text, TextInput } from '../components/Themed';
-import { useLinkTo } from '@react-navigation/native';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { useMutation, gql } from '@apollo/client';
+
+import { View, Text, TextInput } from '../components/Themed';
 
 export const SIGN_UP_MUTATION = gql`
   mutation signUp($email: String!, $password: String!, $name: String!) {
