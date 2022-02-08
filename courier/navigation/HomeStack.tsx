@@ -29,14 +29,14 @@ export default function HomeStack() {
           tabBarIcon: ({ color }) => <TabBarIcon name="gift" color={color} />,
         }}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Track"
         component={TrackScreen}
         options={{
           title: 'Track',
           tabBarIcon: ({ color }) => <TabBarIcon name="map-marker" color={color} />,
         }}
-      /> */}
+      />
 
     </ Tab.Navigator>
   );

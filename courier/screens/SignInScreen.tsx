@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as React from 'react';
 
-import { Pressable } from 'react-native';
+import { Pressable, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, gql } from '@apollo/client';
 
@@ -41,7 +41,7 @@ const SignInScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{ padding: 20 }}>
+    <SafeAreaView style={{ padding: 20 }}>
       <TextInput
         placeholder="email@email.com"
         testID="SignIn.Email"
@@ -124,7 +124,7 @@ const SignInScreen = ({ navigation }) => {
           New here? Sign up
         </Text>
       </Pressable>
-    </View>
+    </SafeAreaView>
   );
 };
 

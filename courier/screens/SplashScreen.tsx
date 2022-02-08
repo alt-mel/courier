@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { View, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = () => {
   const navigation = useNavigation();

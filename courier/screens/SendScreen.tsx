@@ -7,11 +7,17 @@ import {
   Platform,
   Pressable,
   ScrollView,
-  Picker
+  FlatList,
+  TouchableOpacity,
+  Picker,
+  SafeAreaView
 } from 'react-native';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import axios from 'axios';
+
 import { Text, View, TextInput } from '../components/Themed';
 
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, useQuery, gql } from '@apollo/client';
 
 const CREATE_DELIVERY = gql`
   mutation CreateDelivery(
@@ -46,6 +52,16 @@ const CREATE_DELIVERY = gql`
     }
   }
 `;
+
+export const GET_PREDICTIONS_QUERY = gql`
+  query getPredictions {
+    getPredictions {
+      id
+      description
+    }
+  }
+`;
+
 export default function SendScreen({ navigation }) {
   const [pickup_location, setPickupLocation] = useState('');
   const [destination_location, setDestinationLocation] = useState('');
@@ -55,8 +71,18 @@ export default function SendScreen({ navigation }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const status = 'waiting';
-
+  const [state, setState] = useState({
+    searchKeyword: '',
+    searchResults: [],
+    isShowingResults: false
+  });
   const [createDelivery, { data, error, loading }] = useMutation(CREATE_DELIVERY);
+  const [
+    getPredictions,
+    { loading: predictionLoading, error: predrictionError, data: predictionData }
+  ] = useQuery(GET_PREDICTIONS_QUERY);
+
+  //const API_KEY = 'AIzaSyBlm_ANF4hDpY31CNvAqABz-jh32w7dAbY';
 
   if (data) {
     console.warn('Delivery Created');
@@ -66,12 +92,39 @@ export default function SendScreen({ navigation }) {
     });
   }
 
+  if (predictionData) {
+    console.log('Data', predictionData);
+  }
+  const searchLocation = async (text: string) => {
+    setState({ ...state, searchKeyword: text });
+
+    getPredictions({ variables: { descriptions: state.searchKeyword } });
+    console.log('Address Results', data);
+    // axios
+    //   .request({
+    //     method: 'post',
+    //     url: `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${API_KEY}&input=${state.searchKeyword}`
+    //   })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     setState({
+    //       ...state,
+    //       searchResults: response.data.predictions,
+    //       isShowingResults: true
+    //     });
+    //   })
+    //   .catch((e) => {
+    //     console.log(e.response);
+    //   });
+  };
+
   if (error) {
     console.log('Delivery creation unsuccessful');
     console.log(JSON.stringify(error, null, 2));
   }
 
   const onSubmit = () => {
+    console.log('Delivery Created');
     createDelivery({
       variables: {
         title,
@@ -96,6 +149,42 @@ export default function SendScreen({ navigation }) {
         <View style={styles.container}>
           <Text style={styles.title}>Send/Details</Text>
           <View>
+            <SafeAreaView style={styles.container}>
+              <View style={styles.autocompleteContainer}>
+                <TextInput
+                  placeholder="Search for an address"
+                  returnKeyType="search"
+                  style={styles.searchBox}
+                  placeholderTextColor="#000"
+                  onChangeText={(text) => searchLocation(text)}
+                  value={state.searchKeyword}
+                />
+                {state.isShowingResults && (
+                  <FlatList
+                    data={state.searchResults}
+                    renderItem={({ item, index }) => {
+                      return (
+                        <TouchableOpacity
+                          style={styles.resultItem}
+                          onPress={() =>
+                            setState({
+                              ...state,
+                              searchKeyword: item.description,
+                              isShowingResults: false
+                            })
+                          }
+                        >
+                          <Text>{item.description}</Text>
+                        </TouchableOpacity>
+                      );
+                    }}
+                    keyExtractor={(item) => item.id}
+                    style={styles.searchResultsContainer}
+                  />
+                )}
+              </View>
+              <View style={styles.dummmy} />
+            </SafeAreaView>
             <TextInput
               placeholder="Pick up....."
               value={pickup_location}
@@ -159,11 +248,6 @@ export default function SendScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    textAlign: 'center',
-    padding: 12
-  },
   sizeBox: {
     display: 'flex',
     flexDirection: 'row',
@@ -215,7 +299,6 @@ const styles = StyleSheet.create({
   },
   numberInput: {
     fontSize: 14,
-    border: '1px solid black',
     lineHeight: 19,
     height: 30,
     width: 40
@@ -225,7 +308,46 @@ const styles = StyleSheet.create({
   },
   descriptionInput: {
     height: 100,
-    border: '1px solid black',
     marginBottom: 22
+  },
+  autocompleteContainer: {
+    zIndex: 1
+  },
+  searchResultsContainer: {
+    width: 340,
+    height: 200,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    top: 50
+  },
+  dummmy: {
+    width: 600,
+    height: 200,
+    backgroundColor: 'hotpink',
+    marginTop: 20
+  },
+  resultItem: {
+    width: '100%',
+    justifyContent: 'center',
+    height: 40,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
+    paddingLeft: 15
+  },
+  searchBox: {
+    width: 340,
+    height: 50,
+    fontSize: 18,
+    borderRadius: 8,
+    borderColor: '#aaa',
+    color: '#000',
+    backgroundColor: '#fff',
+    borderWidth: 1.5,
+    paddingLeft: 15
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'lightblue',
+    alignItems: 'center'
   }
 });

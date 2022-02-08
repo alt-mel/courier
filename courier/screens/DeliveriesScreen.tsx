@@ -1,20 +1,19 @@
 import { useState, useEffect } from 'react';
 import * as React from 'react';
 import {
+  View,
+  Text,
   StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
   Alert,
   FlatList,
   Pressable,
-  Dimensions,
   TouchableWithoutFeedback,
-  ScrollView
+  SafeAreaView
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQuery, gql } from '@apollo/client';
 
-import { View, Text } from '../components/Themed';
+import { View as StyledView, Text as StyledText } from '../components/Themed';
 
 export const GET_DELIVERIES_QUERY = gql`
   query myDeliveries {
@@ -52,22 +51,12 @@ export default function DeliveriesScreen({ navigation }) {
   useEffect(() => {
     if (data) {
       setDeliveries(data.myDeliveries);
-      console.log('Data', data);
     }
   }, [data]);
 
   if (!deliveries) {
     return null;
   }
-
-  const renderItem = ({ item }) => (
-    <TouchableWithoutFeedback onPress={() => selectItem(item)}>
-      <View testID={`Deliveries.Item-${item.id}`} style={styles.item}>
-        <Text>{item.title}</Text>
-        <Text>{item.status}</Text>
-      </View>
-    </TouchableWithoutFeedback>
-  );
 
   const onSubmit = async () => {
     try {
@@ -85,46 +74,48 @@ export default function DeliveriesScreen({ navigation }) {
     });
   };
 
+  const getHeader = () => {
+    return (
+      <Text style={styles.title} testID="Deliveries.Title">
+        My Deliveries
+      </Text>
+    );
+  };
+
+  const getFooter = () => {
+    return (
+      <Pressable style={styles.button} onPress={onSubmit} disabled={loading}>
+        <Text style={styles.buttonText}>Sign Out</Text>
+      </Pressable>
+    );
+  };
+
   return (
-    <ScrollView>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 130 : 0}
-        style={{ flex: 1 }}
-      >
-        <View style={styles.container}>
-          <Text testID="Deliveries.Title" style={styles.title}>
-            My Deliveries
-          </Text>
-          <FlatList
-            style={styles.itemList}
-            data={deliveries}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-          />
-          <Pressable onPress={onSubmit} disabled={loading} style={styles.button}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 18,
-                fontWeight: 'bold'
-              }}
-            >
-              Sign Out
-            </Text>
-          </Pressable>
-        </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={deliveries}
+        numColumns={1}
+        renderItem={({ item }) => (
+          <TouchableWithoutFeedback onPress={() => selectItem(item)}>
+            <View style={styles.item} testID={`Deliveries.Item-${item.id}`}>
+              <Text>{item.title}</Text>
+              <Text>{item.status}</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={getHeader}
+        ListFooterComponent={getFooter}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    padding: 12,
-    display: 'flex'
+    marginVertical: 10,
+    marginHorizontal: 20
   },
   button: {
     alignItems: 'center',
@@ -135,20 +126,23 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: '#bebebe'
   },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
   title: {
     width: '100%',
     alignItems: 'center',
-    fontSize: 24,
-    marginBottom: 52
+    fontSize: 24
   },
   item: {
     display: 'flex',
     flexDirection: 'row',
-    width: Dimensions.get('window').width / 2,
     justifyContent: 'space-between',
-    paddingTop: 30
-  },
-  itemList: {
-    margin: 8
+    paddingTop: 15
   }
+  // itemList: {
+  //   margin: 8
+  // }
 });

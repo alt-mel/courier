@@ -25,6 +25,7 @@ const getUserFromToken = async (token, db) => {
 const typeDefs = gql`
   type Query {
     myDeliveries: [Delivery!]!
+    getPredictions(text: String!): [Prediction!]!
     getDelivery(id: ID!): Delivery
   }
 
@@ -43,6 +44,10 @@ const typeDefs = gql`
       status: String!
     ): Delivery!
 
+    createPrediction(
+      description: String!
+    ): Prediction!
+
     updateDelivery(
       id: ID!
       title: String!
@@ -56,6 +61,8 @@ const typeDefs = gql`
     ): Delivery!
 
     deleteDelivery(id: ID!): Boolean!
+    deletePrediction(id: ID!): Boolean!
+
 
     addUserToDelivery(deliveryId: ID!, userId: ID!): Delivery
   }
@@ -96,6 +103,11 @@ const typeDefs = gql`
     status: String!
     user: User  
   }
+
+  type Prediction {
+    id: ID!
+    description: String!
+  }
 `;
 
 const resolvers = {
@@ -113,6 +125,15 @@ const resolvers = {
       }
       return await db.collection('Delivery').findOne({ _id: ObjectID(id) });
     },
+
+    getPredictions:  async (_, { text }, { db, user }) => {
+      if (!user) {
+        throw new Error('Authentication Error. Please sign in');
+      }
+      const s = text;
+      const regex = new RegExp(s, 'i');
+      return await db.collection('Prediction').find({ description:{$regex: regex} }).toArray();
+    }, 
   },
   Mutation: {
     signUp: async (_, { input }, { db }) => {
@@ -165,6 +186,22 @@ const resolvers = {
         userId: user._id,
       };
       const result = await db.collection('Delivery').insert(newDelivery);
+      return result.ops[0];
+    },
+
+    createPrediction: async (
+      _,
+      {  description },
+      { db, user }
+    ) => {
+      if (!user) {
+        throw new Error('Authentication Error. Please sign in');
+      }
+
+      const newPrediction = {
+        description
+      };
+      const result = await db.collection('Prediction').insert(newPrediction);
       return result.ops[0];
     },
 
@@ -235,7 +272,17 @@ const resolvers = {
       await db.collection('Delivery').removeOne({ _id: ObjectID(id) });
 
       return true;
-    }
+    },
+
+    deletePrediction: async (_, { id }, { db, user }) => {
+      if (!user) {
+        throw new Error('Authentication Error. Please sign in');
+      }
+
+      await db.collection('Prediction').removeOne({ _id: ObjectID(id) });
+
+      return true;
+    },
   },
 
   User: {

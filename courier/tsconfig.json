@@ -4,7 +4,7 @@
     "target": "es6",
     "module": "commonjs",
     "noEmitOnError": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "experimentalDecorators": true,
     "sourceMap": true,
     "strictNullChecks": true,
@@ -16,6 +16,10 @@
     "outDir": "build",
     "noResolve": false,
     "moduleResolution": "node",
+    "lib": [
+      "ES2015",
+      "DOM"
+  ],
     "typeRoots": [
       "./node_modules/@types",
       "./secure/node_modules/@types",
