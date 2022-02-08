@@ -16,18 +16,18 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 14
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '14'
     
     - name: yarn install
       run: |
         cd courier
-        yarn install
-    - name: yarn test
+        npm install
+    - name: npm test
       run: |
-        yarn test 
+        npm test 
       env:
         CI: true
       
