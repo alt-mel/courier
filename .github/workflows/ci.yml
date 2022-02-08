@@ -9,11 +9,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        node-version: [10.x, 8.x]
-    
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js 14
@@ -21,13 +16,11 @@ jobs:
       with:
         node-version: '14'
     
-    - name: yarn install
+    - name: npm install
       run: |
         cd courier
         npm install
+   
     - name: npm test
-      run: |
-        npm test 
-      env:
-        CI: true
+      run: npm test 
       
