@@ -23,6 +23,7 @@ jobs:
     
     - name: yarn install
       run: |
+        cd courier
         yarn install
     - name: yarn test
       run: |
