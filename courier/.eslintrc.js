@@ -5,20 +5,19 @@ module.exports = {
     commonjs: true,
     es6: true,
     node: true,
-    jest: true,
+    jest: true
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
   parserOptions: {
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
-      jsx: true,
+      jsx: true
     },
-    sourceType: 'module',
+    sourceType: 'module'
   },
   plugins: ['react'],
   rules: {
     'react/prop-types': 0,
-    'react-hooks/rules-of-hooks': error,
     'prettier/prettier': [
       'error',
       JSON.parse(require('fs').readFileSync('.prettierrc', { encoding: 'utf8' }))
@@ -27,7 +26,7 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
-    'no-console': ['warn', {allow: ['clear', 'info', 'error', 'dir', 'trace']}],
+    'no-console': ['warn', { allow: ['clear', 'info', 'error', 'dir', 'trace'] }],
     curly: 'error',
     'no-else-return': 'error',
     'no-unneeded-ternary': 'error',
@@ -36,6 +35,6 @@ module.exports = {
     'one-var': ['error', 'never'],
     'prefer-arrow-callback': 'error',
     strict: 'error',
-    'symbol-description': 'error',
-  },
+    'symbol-description': 'error'
+  }
 };
