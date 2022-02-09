@@ -1,85 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the Deliveries Screen 1`] = `
-<RCTScrollView>
-  <View>
-    <View
-      onLayout={[Function]}
-      style={
-        Array [
-          Object {
-            "flex": 1,
-          },
-          Object {
-            "paddingBottom": 0,
-          },
-        ]
-      }
-    >
+<RCTSafeAreaView
+  emulateUnlessSupported={true}
+  style={
+    Object {
+      "flex": 1,
+      "marginHorizontal": 20,
+      "marginVertical": 10,
+    }
+  }
+>
+  <RCTScrollView
+    ListFooterComponent={[Function]}
+    ListHeaderComponent={[Function]}
+    data={Array []}
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    stickyHeaderIndices={Array []}
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <View>
       <View
-        style={
-          Array [
-            Object {
-              "backgroundColor": "#fff",
-            },
-            Object {
-              "alignItems": "center",
-              "display": "flex",
-              "flex": 1,
-              "padding": 12,
-            },
-          ]
-        }
+        onLayout={[Function]}
       >
         <Text
           style={
-            Array [
-              Object {
-                "color": "#000",
-              },
-              Object {
-                "alignItems": "center",
-                "fontSize": 24,
-                "marginBottom": 52,
-                "width": "100%",
-              },
-            ]
+            Object {
+              "alignItems": "center",
+              "fontSize": 24,
+              "width": "100%",
+            }
           }
           testID="Deliveries.Title"
         >
           My Deliveries
         </Text>
-        <RCTScrollView
-          data={Array []}
-          disableVirtualization={false}
-          getItem={[Function]}
-          getItemCount={[Function]}
-          horizontal={false}
-          initialNumToRender={10}
-          keyExtractor={[Function]}
-          maxToRenderPerBatch={10}
-          onContentSizeChange={[Function]}
-          onEndReachedThreshold={2}
-          onLayout={[Function]}
-          onMomentumScrollEnd={[Function]}
-          onScroll={[Function]}
-          onScrollBeginDrag={[Function]}
-          onScrollEndDrag={[Function]}
-          removeClippedSubviews={false}
-          renderItem={[Function]}
-          scrollEventThrottle={50}
-          stickyHeaderIndices={Array []}
-          style={
-            Object {
-              "margin": 8,
-            }
-          }
-          updateCellsBatchingPeriod={50}
-          viewabilityConfigCallbackPairs={Array []}
-          windowSize={21}
-        >
-          <View />
-        </RCTScrollView>
+      </View>
+      <View
+        onLayout={[Function]}
+      >
         <View
           accessible={true}
           focusable={true}
@@ -106,16 +83,11 @@ exports[`renders the Deliveries Screen 1`] = `
         >
           <Text
             style={
-              Array [
-                Object {
-                  "color": "#000",
-                },
-                Object {
-                  "color": "white",
-                  "fontSize": 18,
-                  "fontWeight": "bold",
-                },
-              ]
+              Object {
+                "color": "white",
+                "fontSize": 18,
+                "fontWeight": "bold",
+              }
             }
           >
             Sign Out
@@ -123,6 +95,6 @@ exports[`renders the Deliveries Screen 1`] = `
         </View>
       </View>
     </View>
-  </View>
-</RCTScrollView>
+  </RCTScrollView>
+</RCTSafeAreaView>
 `;

@@ -1,16 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the Sign In Screen 1`] = `
-<View
+<RCTSafeAreaView
+  emulateUnlessSupported={true}
   style={
-    Array [
-      Object {
-        "backgroundColor": "#fff",
-      },
-      Object {
-        "padding": 20,
-      },
-    ]
+    Object {
+      "padding": 20,
+    }
   }
 >
   <TextInput
@@ -136,5 +132,5 @@ exports[`renders the Sign In Screen 1`] = `
       New here? Sign up
     </Text>
   </View>
-</View>
+</RCTSafeAreaView>
 `;
