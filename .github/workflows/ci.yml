@@ -22,7 +22,5 @@ jobs:
         npm install
    
     - name: npm test
-      run: |
-        cd courier
-        npm test 
+      run: npm test 
       
