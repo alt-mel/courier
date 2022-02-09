@@ -26,3 +26,8 @@ jobs:
         cd courier
         npm run test-coverage 
       
+    - name: Lint
+      run: |
+        cd courier
+        npm run lint
+      
