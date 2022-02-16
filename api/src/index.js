@@ -16,6 +16,7 @@ const getUserFromToken = async (token, db) => {
   }
 
   const tokenData = jwt.verify(token, 'asdfghjkjhgfdsdfghjklkjhgfd');
+  
   if (!tokenData?.id) {
     return null;
   }
@@ -25,7 +26,7 @@ const getUserFromToken = async (token, db) => {
 const typeDefs = gql`
   type Query {
     myDeliveries: [Delivery!]!
-    getPredictions(text: String!): [Prediction!]!
+    getPredictions(description: String!): [Prediction!]!
     getDelivery(id: ID!): Delivery
   }
 
@@ -126,13 +127,13 @@ const resolvers = {
       return await db.collection('Delivery').findOne({ _id: ObjectID(id) });
     },
 
-    getPredictions:  async (_, { text }, { db, user }) => {
+    getPredictions:  async (_, { description }, { db, user }) => {
       if (!user) {
         throw new Error('Authentication Error. Please sign in');
       }
-      const s = text;
-      const regex = new RegExp(s, 'i');
-      return await db.collection('Prediction').find({ description:{$regex: regex} }).toArray();
+      console.log("In get predictions")
+      const regex = new RegExp(description, 'i');
+     return await db.collection('Prediction').find({ description:{$regex: regex} }).toArray();
     }, 
   },
   Mutation: {
@@ -214,7 +215,7 @@ const resolvers = {
         throw new Error('Authentication Error. Please sign in');
       }
 
-      const result = await db.collection('Delivery').updateOne(
+      await db.collection('Delivery').updateOne(
         {
           _id: ObjectID(id),
         },
@@ -293,15 +294,26 @@ const resolvers = {
     id: ({ _id, id }) => _id || id,
     user: async ({ userId }, _, { db }) =>
       await db.collection('User').findOne({ _id: ObjectID(userId) }),
-  }
+  },
+
+  Prediction: {
+    id: ({ _id, id }) => _id || id,
+  },
 };
 
 const start = async () => {
+
   const client = new MongoClient(DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
+    try {
+
   await client.connect();
+    } catch (err) {
+      console.error(`Error connecting to database: ${err}`)
+  }
+  
   const db = client.db('courier');
 
   const server = new ApolloServer({

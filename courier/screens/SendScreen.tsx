@@ -17,7 +17,7 @@ import axios from 'axios';
 
 import { Text, View, TextInput } from '../components/Themed';
 
-import { useMutation, useQuery, gql } from '@apollo/client';
+import { useMutation, useQuery, gql, useLazyQuery } from '@apollo/client';
 
 const CREATE_DELIVERY = gql`
   mutation CreateDelivery(
@@ -55,7 +55,7 @@ const CREATE_DELIVERY = gql`
 
 export const GET_PREDICTIONS_QUERY = gql`
   query getPredictions {
-    getPredictions {
+    getPredictions(description: $description) {
       id
       description
     }
@@ -76,12 +76,19 @@ export default function SendScreen({ navigation }) {
     searchResults: [],
     isShowingResults: false
   });
-  const [createDelivery, { data, error, loading }] = useMutation(CREATE_DELIVERY);
-  const [
-    getPredictions,
-    { loading: predictionLoading, error: predrictionError, data: predictionData }
-  ] = useQuery(GET_PREDICTIONS_QUERY);
 
+  const [createDelivery, { data, error, loading }] = useMutation(CREATE_DELIVERY);
+
+// const { data: predictionData, error: predictionError, loading: predictionLoading } = useQuery(GET_PREDICTIONS_QUERY, {
+//   variables: { description: state.searchKeyword }
+// })
+
+const [getPredictions, { data: predictionData}] = useLazyQuery(GET_PREDICTIONS_QUERY, {
+  fetchPolicy: 'network-only',
+  variables: {
+    description: state.searchKeyword
+  }
+});
   //const API_KEY = 'AIzaSyBlm_ANF4hDpY31CNvAqABz-jh32w7dAbY';
 
   if (data) {
@@ -95,27 +102,13 @@ export default function SendScreen({ navigation }) {
   if (predictionData) {
     console.log('Data', predictionData);
   }
+
   const searchLocation = async (text: string) => {
     setState({ ...state, searchKeyword: text });
 
-    getPredictions({ variables: { descriptions: state.searchKeyword } });
-    console.log('Address Results', data);
-    // axios
-    //   .request({
-    //     method: 'post',
-    //     url: `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${API_KEY}&input=${state.searchKeyword}`
-    //   })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setState({
-    //       ...state,
-    //       searchResults: response.data.predictions,
-    //       isShowingResults: true
-    //     });
-    //   })
-    //   .catch((e) => {
-    //     console.log(e.response);
-    //   });
+   
+  getPredictions({ variables: { description: state.searchKeyword } });
+   console.log('Address Results', predictionData);
   };
 
   if (error) {
