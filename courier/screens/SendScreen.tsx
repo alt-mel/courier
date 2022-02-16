@@ -5,17 +5,14 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
   ScrollView,
   FlatList,
   TouchableOpacity,
-  Picker,
   SafeAreaView
 } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import axios from 'axios';
-
-import { Text, View, TextInput } from '../components/Themed';
+import { TextInput, Searchbar, Text, Button } from 'react-native-paper';
+import DropDown from 'react-native-paper-dropdown';
+import { View } from '../components/Themed';
 
 import { useMutation, useQuery, gql, useLazyQuery } from '@apollo/client';
 
@@ -70,7 +67,22 @@ export default function SendScreen({ navigation }) {
   const [size, setSize] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [showDropDown, setShowDropDown] = useState(false);
   const status = 'waiting';
+  const sizeList = [
+    {
+      label: 'Small',
+      value: 'small'
+    },
+    {
+      label: 'Medium',
+      value: 'medium'
+    },
+    {
+      label: 'Large',
+      value: 'large'
+    }
+  ];
   const [state, setState] = useState({
     searchKeyword: '',
     searchResults: [],
@@ -79,17 +91,12 @@ export default function SendScreen({ navigation }) {
 
   const [createDelivery, { data, error, loading }] = useMutation(CREATE_DELIVERY);
 
-// const { data: predictionData, error: predictionError, loading: predictionLoading } = useQuery(GET_PREDICTIONS_QUERY, {
-//   variables: { description: state.searchKeyword }
-// })
-
-const [getPredictions, { data: predictionData}] = useLazyQuery(GET_PREDICTIONS_QUERY, {
-  fetchPolicy: 'network-only',
-  variables: {
-    description: state.searchKeyword
-  }
-});
-  //const API_KEY = 'AIzaSyBlm_ANF4hDpY31CNvAqABz-jh32w7dAbY';
+  const [getPredictions, { data: predictionData }] = useLazyQuery(GET_PREDICTIONS_QUERY, {
+    fetchPolicy: 'network-only',
+    variables: {
+      description: state.searchKeyword
+    }
+  });
 
   if (data) {
     console.warn('Delivery Created');
@@ -106,9 +113,8 @@ const [getPredictions, { data: predictionData}] = useLazyQuery(GET_PREDICTIONS_Q
   const searchLocation = async (text: string) => {
     setState({ ...state, searchKeyword: text });
 
-   
-  getPredictions({ variables: { description: state.searchKeyword } });
-   console.log('Address Results', predictionData);
+    getPredictions({ variables: { description: state.searchKeyword } });
+    console.log('Address Results', predictionData);
   };
 
   if (error) {
@@ -133,107 +139,97 @@ const [getPredictions, { data: predictionData}] = useLazyQuery(GET_PREDICTIONS_Q
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 130 : 0}
         style={{ flex: 1 }}
       >
-        <View style={styles.container}>
-          <Text style={styles.title}>Send/Details</Text>
-          <View>
-            <SafeAreaView style={styles.container}>
-              <View style={styles.autocompleteContainer}>
-                <TextInput
-                  placeholder="Search for an address"
-                  returnKeyType="search"
-                  style={styles.searchBox}
-                  placeholderTextColor="#000"
-                  onChangeText={(text) => searchLocation(text)}
-                  value={state.searchKeyword}
-                />
-                {state.isShowingResults && (
-                  <FlatList
-                    data={state.searchResults}
-                    renderItem={({ item, index }) => {
-                      return (
-                        <TouchableOpacity
-                          style={styles.resultItem}
-                          onPress={() =>
-                            setState({
-                              ...state,
-                              searchKeyword: item.description,
-                              isShowingResults: false
-                            })
-                          }
-                        >
-                          <Text>{item.description}</Text>
-                        </TouchableOpacity>
-                      );
-                    }}
-                    keyExtractor={(item) => item.id}
-                    style={styles.searchResultsContainer}
-                  />
-                )}
-              </View>
-              <View style={styles.dummmy} />
-            </SafeAreaView>
-            <TextInput
-              placeholder="Pick up....."
-              value={pickup_location}
-              onChangeText={setPickupLocation}
-              style={styles.textInput}
+        <View>
+          <SafeAreaView>
+            <Searchbar
+              placeholder="Search for an address"
+              onChangeText={(text) => searchLocation(text)}
+              value={state.searchKeyword}
             />
-            <TextInput
-              placeholder="Drop off....."
-              value={destination_location}
-              onChangeText={setDestinationLocation}
-              style={styles.textInput}
-            />
-          </View>
-          <View style={styles.box}>
-            <Text style={styles.label}>Package Name</Text>
-            <TextInput style={styles.numberInput} value={title} onChangeText={setTitle} />
-          </View>
-          <View style={styles.box}>
-            <Text style={styles.label}>Package Size</Text>
-            <Picker
-              selectedValue={size}
-              style={{ height: 42, width: '75%' }}
-              onValueChange={(itemValue) => setSize(itemValue)}
-            >
-              <Picker.Item label="Small" value="small" />
-              <Picker.Item label="Medium" value="medium" />
-              <Picker.Item label="Large" value="lerge" />
-            </Picker>
-          </View>
-          <View style={styles.box}>
-            <Text style={styles.label}>Package Weight</Text>
-            <TextInput
-              returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
-              style={styles.numberInput}
-              value={weight}
-              onChangeText={setWeight}
-              keyboardType="numeric"
-            />
-          </View>
-          <View style={styles.descriptionBox}>
-            <Text style={styles.label}>Description</Text>
-            <TextInput
-              style={styles.descriptionInput}
-              value={description}
-              onChangeText={setDescription}
-              multiline
-            />
-          </View>
-          <Pressable
-            style={styles.button}
+            {state.isShowingResults && (
+              <FlatList
+                data={state.searchResults}
+                renderItem={({ item, index }) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() =>
+                        setState({
+                          ...state,
+                          searchKeyword: item.description,
+                          isShowingResults: false
+                        })
+                      }
+                    >
+                      <Text>{item.description}</Text>
+                    </TouchableOpacity>
+                  );
+                }}
+                keyExtractor={(item) => item.id}
+              />
+            )}
+          </SafeAreaView>
+          <TextInput
+            style={styles.input}
+            placeholder="Pick up....."
+            value={pickup_location}
+            onChangeText={setPickupLocation}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Drop off....."
+            value={destination_location}
+            onChangeText={setDestinationLocation}
+          />
+          <TextInput
+            style={styles.input}
+            value={title}
+            label="Package Name"
+            onChangeText={setTitle}
+          />
+          <DropDown
+            style={styles.input}
+            label={'Package Size'}
+            mode={'outlined'}
+            visible={showDropDown}
+            showDropDown={() => setShowDropDown(true)}
+            onDismiss={() => setShowDropDown(false)}
+            value={size}
+            setValue={setSize}
+            list={sizeList}
+            multiSelect
+          />
+
+          <TextInput
+            style={styles.input}
+            label="Package Weight"
+            returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
+            value={weight}
+            onChangeText={setWeight}
+            keyboardType="numeric"
+          />
+
+          <TextInput
+            style={styles.input}
+            label="Description"
+            value={description}
+            onChangeText={setDescription}
+            multiline
+          />
+          <Button
+            style={styles.input}
+            mode="contained"
             onPress={onSubmit}
             disabled={loading}
             testID="Delivery.Button"
           >
-            <Text style={styles.buttonText}>Create delivery</Text>
-          </Pressable>
+            Create delivery
+          </Button>
         </View>
       </KeyboardAvoidingView>
     </ScrollView>
@@ -241,106 +237,11 @@ const [getPredictions, { data: predictionData}] = useLazyQuery(GET_PREDICTIONS_Q
 }
 
 const styles = StyleSheet.create({
-  sizeBox: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginLeft: 38,
-    marginBottom: 43,
-    textAlign: 'left',
-    margin: '6%'
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
-    backgroundColor: '#bebebe'
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 20,
-    lineHeight: 26,
-    fontWeight: '600'
-  },
-  box: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 22
-  },
-  title: {
-    width: '100%',
-    alignItems: 'center',
-    fontSize: 24,
-    marginBottom: 52
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: '500',
-    lineHeight: 24,
-    marginBottom: 21,
-    textAlign: 'left'
-  },
-  textInput: {
-    fontSize: 14,
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10
-  },
-  numberInput: {
-    fontSize: 14,
-    lineHeight: 19,
-    height: 30,
-    width: 40
-  },
-  descriptionBox: {
-    display: 'flex'
-  },
-  descriptionInput: {
-    height: 100,
-    marginBottom: 22
-  },
-  autocompleteContainer: {
-    zIndex: 1
-  },
-  searchResultsContainer: {
-    width: 340,
-    height: 200,
-    backgroundColor: '#fff',
-    position: 'absolute',
-    top: 50
-  },
-  dummmy: {
-    width: 600,
-    height: 200,
-    backgroundColor: 'hotpink',
-    marginTop: 20
-  },
-  resultItem: {
-    width: '100%',
-    justifyContent: 'center',
-    height: 40,
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 1,
-    paddingLeft: 15
-  },
-  searchBox: {
-    width: 340,
-    height: 50,
-    fontSize: 18,
-    borderRadius: 8,
-    borderColor: '#aaa',
-    color: '#000',
-    backgroundColor: '#fff',
-    borderWidth: 1.5,
-    paddingLeft: 15
-  },
   container: {
     flex: 1,
-    backgroundColor: 'lightblue',
-    alignItems: 'center'
+    margin: 20
+  },
+  input: {
+    margin: 10
   }
 });

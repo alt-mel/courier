@@ -58,40 +58,100 @@ exports[`renders the Deliveries Screen 1`] = `
         onLayout={[Function]}
       >
         <View
-          accessible={true}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "alignItems": "center",
-              "backgroundColor": "#bebebe",
+              "backgroundColor": "rgba(0, 0, 0, 0.12)",
+              "borderColor": "transparent",
               "borderRadius": 4,
-              "elevation": 3,
-              "justifyContent": "center",
-              "paddingHorizontal": 32,
-              "paddingVertical": 12,
+              "borderStyle": "solid",
+              "borderWidth": 0,
+              "elevation": 0,
+              "minWidth": 64,
             }
           }
         >
-          <Text
-            style={
+          <View
+            accessibilityRole="button"
+            accessibilityState={
               Object {
-                "color": "white",
-                "fontSize": 18,
-                "fontWeight": "bold",
+                "disabled": true,
               }
             }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                Object {
+                  "borderRadius": 4,
+                },
+              ]
+            }
+            testID="Delivery.Button"
           >
-            Sign Out
-          </Text>
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Text
+                numberOfLines={1}
+                selectable={false}
+                style={
+                  Array [
+                    Object {
+                      "color": "#000000",
+                      "fontFamily": "System",
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "textAlign": "left",
+                    },
+                    Array [
+                      Object {
+                        "letterSpacing": 1,
+                        "marginHorizontal": 16,
+                        "marginVertical": 9,
+                        "textAlign": "center",
+                      },
+                      undefined,
+                      Object {
+                        "textTransform": "uppercase",
+                      },
+                      Object {
+                        "color": "rgba(0, 0, 0, 0.32)",
+                        "fontFamily": "System",
+                        "fontWeight": "500",
+                      },
+                      Object {
+                        "fontFamily": "System",
+                        "fontWeight": "500",
+                      },
+                      undefined,
+                    ],
+                  ]
+                }
+              >
+                Sign Out
+              </Text>
+            </View>
+          </View>
         </View>
       </View>
     </View>

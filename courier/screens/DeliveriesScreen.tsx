@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQuery, gql } from '@apollo/client';
+import { Button } from 'react-native-paper';
 
 import { View as StyledView, Text as StyledText } from '../components/Themed';
 
@@ -84,9 +85,9 @@ export default function DeliveriesScreen({ navigation }) {
 
   const getFooter = () => {
     return (
-      <Pressable style={styles.button} onPress={onSubmit} disabled={loading}>
-        <Text style={styles.buttonText}>Sign Out</Text>
-      </Pressable>
+      <Button mode="contained" onPress={onSubmit} disabled={loading} testID="Delivery.Button">
+        Sign Out
+      </Button>
     );
   };
 

@@ -8,7 +8,7 @@ import {
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-gesture-handler';
 import { ApolloProvider } from '@apollo/client';
-
+import { Provider as PaperProvider } from 'react-native-paper';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 
@@ -26,6 +26,7 @@ export default function App() {
 
   return (
     <ApolloProvider client={client}>
+      <PaperProvider>
       <SafeAreaProvider>
         <NavigationContainer
           linking={LinkingConfiguration}
@@ -35,6 +36,7 @@ export default function App() {
           <StatusBar />
         </NavigationContainer>
       </SafeAreaProvider>
+      </PaperProvider>
     </ApolloProvider>
 
   );
